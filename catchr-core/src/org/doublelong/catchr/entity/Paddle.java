@@ -1,5 +1,7 @@
 package org.doublelong.catchr.entity;
 
+import org.doublelong.catchr.controller.PaddleController;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -12,11 +14,16 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Paddle
 {
 	private final World world;
+	public PaddleController controller;
+
+
 	private final Body body;
+	public Body getBody() { return this.body; }
 
 	private final BodyDef bodyDef = new BodyDef();
 
 	private final Fixture fixture;
+	public Fixture getFixture() { return this.fixture; }
 
 	private final FixtureDef fixtureDef = new FixtureDef();
 
@@ -25,7 +32,9 @@ public class Paddle
 	public Paddle(World world, Vector2 position)
 	{
 		this.world = world;
-		this.bodyDef.type = BodyType.KinematicBody;
+
+		//this.bodyDef.type = BodyType.KinematicBody;
+		this.bodyDef.type = BodyType.DynamicBody;
 		this.bodyDef.position.set(position); //set starting position
 
 		this.shape.setAsBox(50f, 10f);
@@ -36,6 +45,10 @@ public class Paddle
 		this.fixtureDef.restitution = 0.5f;
 
 		this.body = this.world.createBody(this.bodyDef);
+		this.body.setGravityScale(0);
 		this.fixture = this.body.createFixture(this.fixtureDef);
+
+		this.controller = new PaddleController(this);
+
 	}
 }

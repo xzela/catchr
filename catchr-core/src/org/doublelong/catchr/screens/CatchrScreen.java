@@ -45,6 +45,7 @@ public class CatchrScreen implements Screen
 
 
 
+
 		this.walls = this.generateWalls(2);
 	}
 
@@ -84,6 +85,8 @@ public class CatchrScreen implements Screen
 	public void render(float arg0)
 	{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		this.player.controller.processControls();
+
 		this.debugRenderer.render(this.world, this.cam.combined);
 		this.world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 	}

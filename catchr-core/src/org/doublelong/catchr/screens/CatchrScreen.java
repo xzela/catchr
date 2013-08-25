@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -23,6 +25,10 @@ public class CatchrScreen implements Screen
 	private final Paddle player;
 	private final Wall[] walls;
 
+	private final boolean debug;
+
+	private final SpriteBatch batch;
+	private final BitmapFont font;
 
 	private static final float BOX_STEP = 1/60f;
 	private static final int BOX_VELOCITY_ITERATIONS = 6;
@@ -33,6 +39,7 @@ public class CatchrScreen implements Screen
 
 	public CatchrScreen(Catchr game, boolean debug)
 	{
+		this.debug = debug;
 		this.world = new World(new Vector2(0f, -10f), false);
 		this.cam = new OrthographicCamera();
 		this.cam.viewportHeight = game.WINDOW_HEIGHT;
@@ -43,10 +50,11 @@ public class CatchrScreen implements Screen
 		this.debugRenderer = new Box2DDebugRenderer();
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
-
-
-
 		this.walls = this.generateWalls(2);
+
+
+		this.batch = new SpriteBatch();
+		this.font = new BitmapFont();
 	}
 
 	private Wall[] generateWalls(int n)
@@ -89,6 +97,16 @@ public class CatchrScreen implements Screen
 
 		this.debugRenderer.render(this.world, this.cam.combined);
 		this.world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+
+		if (this.debug)
+		{
+			String str = "Angle Vel: " + this.player.getBody().getAngularVelocity() + "\n";
+			str += "Angle: " + this.player.getBody().getAngle() + "\n";
+			str += "Linera Vel" + this.player.getBody().getLinearVelocity() + "\n";
+			this.batch.begin();
+			this.font.drawMultiLine(this.batch, str, 10f, 100f);
+			this.batch.end();
+		}
 	}
 
 	@Override

@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class PaddleController extends InputAdapter
 {
-	private final static float MAX_VELOCTY = 100f;
-	private final static float STEP_VELOCTY = 10f;
+	private final static float MAX_VELOCTY = 500f;
+	private final static float STEP_VELOCTY = 50f;
 	private final Paddle paddle;
 
 	private float stillTime = 0f;
@@ -54,6 +54,20 @@ public class PaddleController extends InputAdapter
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))
 		{
 			this.paddle.getBody().applyLinearImpulse(STEP_VELOCTY, 0f, pos.x, pos.y);
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.UP))
+		{
+			if (Math.abs(this.paddle.getBody().getAngle()) < 45)
+			{
+				this.paddle.getBody().setAngularVelocity(2f);
+			}
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.DOWN))
+		{
+			this.paddle.getBody().setAngularVelocity(0f);
+			this.paddle.getBody().setTransform(this.paddle.getBody().getPosition(), 0f);
 		}
 	}
 

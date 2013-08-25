@@ -36,6 +36,7 @@ public class Paddle
 		//this.bodyDef.type = BodyType.KinematicBody;
 		this.bodyDef.type = BodyType.DynamicBody;
 		this.bodyDef.position.set(position); //set starting position
+		this.bodyDef.fixedRotation = true;
 
 		this.shape.setAsBox(50f, 10f);
 

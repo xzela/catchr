@@ -22,13 +22,13 @@ public class Paddle
 
 	private final PolygonShape shape = new PolygonShape();
 
-	public Paddle(World world)
+	public Paddle(World world, Vector2 position)
 	{
 		this.world = world;
 		this.bodyDef.type = BodyType.KinematicBody;
-		this.bodyDef.position.set(new Vector2(125f, 100f)); //set starting position
+		this.bodyDef.position.set(position); //set starting position
 
-		this.shape.setAsBox(40f, 10f);
+		this.shape.setAsBox(50f, 10f);
 
 		this.fixtureDef.shape = this.shape;
 		this.fixtureDef.density = 0.01f;

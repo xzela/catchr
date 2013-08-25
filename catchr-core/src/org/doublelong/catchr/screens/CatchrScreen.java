@@ -2,6 +2,7 @@ package org.doublelong.catchr.screens;
 
 import org.doublelong.catchr.Catchr;
 import org.doublelong.catchr.entity.Paddle;
+import org.doublelong.catchr.entity.Wall;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -15,9 +16,13 @@ public class CatchrScreen implements Screen
 {
 	private final World world;
 	private final OrthographicCamera cam;
+	public OrthographicCamera getCam() { return this.cam; }
+
 	private final Box2DDebugRenderer debugRenderer;
 
 	private final Paddle player;
+	private final Wall[] walls;
+
 
 	private static final float BOX_STEP = 1/60f;
 	private static final int BOX_VELOCITY_ITERATIONS = 6;
@@ -30,14 +35,28 @@ public class CatchrScreen implements Screen
 	{
 		this.world = new World(new Vector2(0f, -10f), false);
 		this.cam = new OrthographicCamera();
-		this.debugRenderer = new Box2DDebugRenderer();
-		this.player = new Paddle(this.world);
-
 		this.cam.viewportHeight = game.WINDOW_HEIGHT;
 		this.cam.viewportWidth = game.WINDOW_WIDTH;
 		this.cam.position.set(this.cam.viewportWidth / 2, this.cam.viewportHeight / 2, 0f);
 		this.cam.update();
 
+		this.debugRenderer = new Box2DDebugRenderer();
+		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
+
+
+
+		this.walls = this.generateWalls(2);
+	}
+
+	private Wall[] generateWalls(int n)
+	{
+		// there are only two walls
+		Wall[] walls = new Wall[n];
+		// left wall starts at: (0,0), bounds: (10f, viewportHeight)
+		walls[0] = new Wall(this.world, new Vector2(11, 1), new Vector2(10f, this.cam.viewportHeight));
+		// right wall starts at (viewportWidth - wall width,0), bounds: (10f, viewportHeight)
+		walls[1] = new Wall(this.world, new Vector2(this.cam.viewportWidth - 10, 1), new Vector2(10f, this.cam.viewportHeight));
+		return walls;
 	}
 
 	@Override

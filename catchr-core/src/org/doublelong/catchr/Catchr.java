@@ -1,11 +1,13 @@
 package org.doublelong.catchr;
 
+import org.doublelong.catchr.screens.CatchrScreen;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Catchr extends Game
 {
-	public final String WINDOW_TILE = "Catchr";
+	public final String WINDOW_TITLE = "Catchr";
 	public final int WINDOW_HEIGHT = 600;
 	public final int WINDOW_WIDTH = 800;
 

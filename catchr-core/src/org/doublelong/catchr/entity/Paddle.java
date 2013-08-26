@@ -25,6 +25,10 @@ public class Paddle
 	private final Fixture fixture;
 	public Fixture getFixture() { return this.fixture; }
 
+	private final Fixture sensorFixture;
+	public Fixture getSensorFixture() { return this.sensorFixture; }
+
+
 	private final FixtureDef fixtureDef = new FixtureDef();
 
 	private final PolygonShape shape = new PolygonShape();
@@ -35,6 +39,7 @@ public class Paddle
 
 		//this.bodyDef.type = BodyType.KinematicBody;
 		this.bodyDef.type = BodyType.DynamicBody;
+		//this.bodyDef.type = BodyType.StaticBody;
 		this.bodyDef.position.set(position); //set starting position
 		this.bodyDef.fixedRotation = true;
 
@@ -49,7 +54,13 @@ public class Paddle
 		this.body.setGravityScale(0);
 		this.fixture = this.body.createFixture(this.fixtureDef);
 
+		this.sensorFixture = this.body.createFixture(this.shape, 0);
 		this.controller = new PaddleController(this);
 
+	}
+
+	public void dispose()
+	{
+		this.shape.dispose();
 	}
 }

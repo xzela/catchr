@@ -41,19 +41,23 @@ public class PaddleController extends InputAdapter
 		if(!Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT))
 		{
 			this.paddle.getFixture().setFriction(100f);
+			this.paddle.getSensorFixture().setFriction(100f);
 		}
 		else
 		{
 			this.paddle.getFixture().setFriction(0.2f);
+			this.paddle.getSensorFixture().setFriction(0.2f);
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.LEFT))
 		{
-			this.paddle.getBody().applyLinearImpulse(-STEP_VELOCTY, 0f, pos.x, pos.y);
+			//this.paddle.getBody().applyLinearImpulse(-STEP_VELOCTY, 0f, pos.x, pos.y);
+			this.paddle.getBody().setLinearVelocity(new Vector2(vel.x - 2f, vel.y));
 		}
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))
 		{
-			this.paddle.getBody().applyLinearImpulse(STEP_VELOCTY, 0f, pos.x, pos.y);
+			//this.paddle.getBody().applyLinearImpulse(STEP_VELOCTY, 0f, pos.x, pos.y);
+			this.paddle.getBody().setLinearVelocity(new Vector2(vel.x + 2f, vel.y));
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.UP))

@@ -16,13 +16,14 @@ public class Ball
 	private final CircleShape shape = new CircleShape();
 
 	private final Body body;
+	public Body getBody() { return this.body; }
 
 	private final BodyDef bodyDef = new BodyDef();
 
 	private final Fixture fixture;
+	public Fixture getFixture() { return this.fixture; }
 
 	private final FixtureDef fixtureDef = new FixtureDef();
-	private final FixtureDef sensorDef = new FixtureDef();
 
 	public Ball(World world)
 	{
@@ -47,5 +48,10 @@ public class Ball
 	public void collides(Paddle paddle)
 	{
 
+	}
+
+	public void dispose()
+	{
+		this.shape.dispose();
 	}
 }

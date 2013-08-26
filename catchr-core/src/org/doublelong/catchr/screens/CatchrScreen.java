@@ -1,5 +1,7 @@
 package org.doublelong.catchr.screens;
 
+import java.util.List;
+
 import org.doublelong.catchr.Catchr;
 import org.doublelong.catchr.entity.Ball;
 import org.doublelong.catchr.entity.Paddle;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class CatchrScreen implements Screen
@@ -75,7 +78,9 @@ public class CatchrScreen implements Screen
 	public void dispose()
 	{
 		// TODO Auto-generated method stub
-
+		this.ball.dispose();
+		this.player.dispose();
+		this.world.dispose();
 	}
 
 	@Override
@@ -93,14 +98,40 @@ public class CatchrScreen implements Screen
 	}
 
 	@Override
-	public void render(float arg0)
+	public void render(float delta)
 	{
+		boolean touched = false;
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		this.player.controller.processControls();
 		this.ball.update();
 
 		this.debugRenderer.render(this.world, this.cam.combined);
+
+		List<Contact> contactList = this.world.getContactList();
+		for(int i = 0; i < contactList.size(); i++)
+		{
+			Contact contact = contactList.get(i);
+			// test the contacts
+			if (contact.isTouching() && (contact.getFixtureA() == this.player.getSensorFixture() || contact.getFixtureB() == this.player.getSensorFixture()))
+			{
+				System.out.println("something is hitting the player!");
+				if (contact.getFixtureA() == this.ball.getFixture() || contact.getFixtureB() == this.ball.getFixture())
+				{
+					touched = true;
+					break;
+					//this.ball.dispose();
+				}
+			}
+		}
+
+		if (touched)
+		{
+			this.world.destroyBody(this.ball.getBody());
+		}
+
 		this.world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+
+
 
 		if (this.debug)
 		{
@@ -114,7 +145,7 @@ public class CatchrScreen implements Screen
 	}
 
 	@Override
-	public void resize(int arg0, int arg1)
+	public void resize(int width, int height)
 	{
 		// TODO Auto-generated method stub
 

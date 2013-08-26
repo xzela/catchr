@@ -56,7 +56,7 @@ public class CatchrScreen implements Screen
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
 		this.ball = new Ball(this.world);
-		this.walls = this.generateWalls(2);
+		this.walls = this.generateWalls(3);
 
 
 		this.batch = new SpriteBatch();
@@ -71,6 +71,8 @@ public class CatchrScreen implements Screen
 		walls[0] = new Wall(this.world, new Vector2(11, 1), new Vector2(10f, this.cam.viewportHeight));
 		// right wall starts at (viewportWidth - wall width,0), bounds: (10f, viewportHeight)
 		walls[1] = new Wall(this.world, new Vector2(this.cam.viewportWidth - 10, 1), new Vector2(10f, this.cam.viewportHeight));
+		// bottom wall: starts at (0, 0)
+		walls[2] = new Wall(this.world, new Vector2(10f, 1f), new Vector2(this.cam.viewportWidth, 10f));
 		return walls;
 	}
 

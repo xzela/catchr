@@ -1,6 +1,7 @@
 package org.doublelong.catchr.screens;
 
 import org.doublelong.catchr.Catchr;
+import org.doublelong.catchr.entity.Ball;
 import org.doublelong.catchr.entity.Paddle;
 import org.doublelong.catchr.entity.Wall;
 
@@ -24,6 +25,7 @@ public class CatchrScreen implements Screen
 
 	private final Paddle player;
 	private final Wall[] walls;
+	private final Ball ball;
 
 	private final boolean debug;
 
@@ -40,7 +42,7 @@ public class CatchrScreen implements Screen
 	public CatchrScreen(Catchr game, boolean debug)
 	{
 		this.debug = debug;
-		this.world = new World(new Vector2(0f, -10f), false);
+		this.world = new World(new Vector2(0f, -500f), false);
 		this.cam = new OrthographicCamera();
 		this.cam.viewportHeight = game.WINDOW_HEIGHT;
 		this.cam.viewportWidth = game.WINDOW_WIDTH;
@@ -50,6 +52,7 @@ public class CatchrScreen implements Screen
 		this.debugRenderer = new Box2DDebugRenderer();
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
+		this.ball = new Ball(this.world);
 		this.walls = this.generateWalls(2);
 
 
@@ -94,6 +97,7 @@ public class CatchrScreen implements Screen
 	{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		this.player.controller.processControls();
+		this.ball.update();
 
 		this.debugRenderer.render(this.world, this.cam.combined);
 		this.world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);

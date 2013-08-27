@@ -29,6 +29,7 @@ public class CatchrScreen implements Screen
 	private final Paddle player;
 	private final Wall[] walls;
 	private final Ball ball;
+	private final Ball[] balls;
 
 	private final boolean debug;
 
@@ -56,11 +57,22 @@ public class CatchrScreen implements Screen
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
 		this.ball = new Ball(this.world);
+		this.balls = this.generateBalls();
 		this.walls = this.generateWalls(3);
 
 
 		this.batch = new SpriteBatch();
 		this.font = new BitmapFont();
+	}
+
+	private Ball[] generateBalls()
+	{
+		Ball[] balls = new Ball[3];
+		for(int i = 0; i < balls.length; i++)
+		{
+			balls[i] = new Ball(this.world);
+		}
+		return balls;
 	}
 
 	private Wall[] generateWalls(int n)
@@ -132,8 +144,6 @@ public class CatchrScreen implements Screen
 		}
 
 		this.world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
-
-
 
 		if (this.debug)
 		{

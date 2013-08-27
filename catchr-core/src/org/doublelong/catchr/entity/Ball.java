@@ -29,17 +29,23 @@ public class Ball
 	{
 		this.world = world;
 		this.bodyDef.type = BodyType.DynamicBody;
-		this.bodyDef.position.set(new Vector2(300f, 300f));
+		this.bodyDef.position.set(new Vector2(this.randomX(), 500f));
 		this.body = this.world.createBody(this.bodyDef);
 
 		this.shape.setRadius(10f);
 		this.fixtureDef.shape = this.shape;
-		this.fixtureDef.density = 500f;
+		this.fixtureDef.density = 50f;
 		this.fixtureDef.friction = .2f;
 		this.fixtureDef.restitution = .01f;
 		this.fixture = this.body.createFixture(this.fixtureDef);
 	}
 
+	private float randomX()
+	{
+		float r = 100f + (float)(Math.random() * ((500 - 200) + 1));
+		//float r = (float) Math.random() * 100;
+		return r;
+	}
 
 	public void update()
 	{

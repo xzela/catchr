@@ -46,9 +46,9 @@ public class Paddle
 		this.shape.setAsBox(50f, 10f);
 
 		this.fixtureDef.shape = this.shape;
-		this.fixtureDef.density = 0.01f;
+		this.fixtureDef.density = 5f;
 		this.fixtureDef.friction = 0f;
-		this.fixtureDef.restitution = 0.5f;
+		this.fixtureDef.restitution = 0f;
 
 		this.body = this.world.createBody(this.bodyDef);
 		this.body.setGravityScale(0);

@@ -60,11 +60,13 @@ public class PaddleController extends InputAdapter
 			this.paddle.getBody().setLinearVelocity(new Vector2(vel.x + 2f, vel.y));
 		}
 
+		this.paddle.getBody().setAngularVelocity(2f);
+
 		if (Gdx.input.isKeyPressed(Keys.UP))
 		{
 			if (Math.abs(this.paddle.getBody().getAngle()) < 45)
 			{
-				this.paddle.getBody().setAngularVelocity(2f);
+
 			}
 		}
 
@@ -72,6 +74,11 @@ public class PaddleController extends InputAdapter
 		{
 			this.paddle.getBody().setAngularVelocity(0f);
 			this.paddle.getBody().setTransform(this.paddle.getBody().getPosition(), 0f);
+		}
+		if (this.paddle.getBody().getPosition().y >= 100f || this.paddle.getBody().getPosition().y <= 100f)
+		{
+			Vector2 n_pos = new Vector2(this.paddle.getBody().getPosition().x, 100f);
+			this.paddle.getBody().setTransform(n_pos, this.paddle.getBody().getAngle());
 		}
 	}
 

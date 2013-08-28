@@ -36,17 +36,19 @@ public class CatchrScreen implements Screen
 	private final SpriteBatch batch;
 	private final BitmapFont font;
 
+	private static final float SPAWN_WAIT_TIME = 1f;
 	private static final float BOX_STEP = 1/60f;
 	private static final int BOX_VELOCITY_ITERATIONS = 6;
 	private static final int BOX_POSITION_ITERATIONS = 2;
 	private static final float WORLD_TO_BOX = 0.01f;
 	private static final float BOX_WORLD_TO = 100f;
 
+	private float time = 0;
 
 	public CatchrScreen(Catchr game, boolean debug)
 	{
 		this.debug = debug;
-		this.world = new World(new Vector2(0f, -500f), false);
+		this.world = new World(new Vector2(0f, -50f), false);
 		this.cam = new OrthographicCamera();
 		this.cam.viewportHeight = game.WINDOW_HEIGHT;
 		this.cam.viewportWidth = game.WINDOW_WIDTH;
@@ -64,7 +66,7 @@ public class CatchrScreen implements Screen
 		this.font = new BitmapFont();
 	}
 
-	private void addBall()
+	private void spwanBall()
 	{
 		this.balls.add(new Ball(this.world));
 	}
@@ -125,16 +127,13 @@ public class CatchrScreen implements Screen
 			// test the contacts
 			if (contact.isTouching() && (contact.getFixtureA() == this.player.getSensorFixture() || contact.getFixtureB() == this.player.getSensorFixture()))
 			{
-				System.out.println("something is hitting the player!");
 				for (int j = 0; j < this.balls.size(); j++)
 				{
 					Ball b =  this.balls.get(j);
 					if (contact.getFixtureA() == b.getFixture() || contact.getFixtureB() == b.getFixture())
 					{
 						killList.add(b);
-						this.addBall();
 					}
-
 				}
 			}
 		}
@@ -145,8 +144,19 @@ public class CatchrScreen implements Screen
 			{
 				Ball b = killList.get(i);
 				killList.remove(b);
+
 				this.world.destroyBody(b.getBody());
 			}
+		}
+	}
+
+	private void tick(float delta)
+	{
+		this.time += delta;
+		if (this.time >= SPAWN_WAIT_TIME)
+		{
+			this.spwanBall();
+			this.time -= SPAWN_WAIT_TIME;
 		}
 	}
 
@@ -158,15 +168,17 @@ public class CatchrScreen implements Screen
 
 		this.debugRenderer.render(this.world, this.cam.combined);
 
+		// test for collisions here!
 		this.testCollisions();
-
+		this.tick(delta);
 		this.world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 
 		if (this.debug)
 		{
 			String str = "Angle Vel: " + this.player.getBody().getAngularVelocity() + "\n";
 			str += "Angle: " + this.player.getBody().getAngle() + "\n";
-			str += "Linera Vel" + this.player.getBody().getLinearVelocity() + "\n";
+			str += "Linera Vel: " + this.player.getBody().getLinearVelocity() + "\n";
+			str += "Pos: " + this.player.getBody().getPosition() + "\n";
 			this.batch.begin();
 			this.font.drawMultiLine(this.batch, str, 10f, 100f);
 			this.batch.end();

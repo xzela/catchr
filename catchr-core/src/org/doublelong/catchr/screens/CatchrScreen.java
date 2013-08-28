@@ -114,14 +114,8 @@ public class CatchrScreen implements Screen
 
 	}
 
-	@Override
-	public void render(float delta)
+	private void testCollisions()
 	{
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		this.player.controller.processControls();
-
-		this.debugRenderer.render(this.world, this.cam.combined);
-
 		List<Contact> contactList = this.world.getContactList();
 		List<Ball> killList = new ArrayList<Ball>();
 
@@ -154,8 +148,17 @@ public class CatchrScreen implements Screen
 				this.world.destroyBody(b.getBody());
 			}
 		}
+	}
 
+	@Override
+	public void render(float delta)
+	{
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		this.player.controller.processControls();
 
+		this.debugRenderer.render(this.world, this.cam.combined);
+
+		this.testCollisions();
 
 		this.world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 

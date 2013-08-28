@@ -1,5 +1,6 @@
 package org.doublelong.catchr.screens;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.doublelong.catchr.Catchr;
@@ -28,8 +29,7 @@ public class CatchrScreen implements Screen
 
 	private final Paddle player;
 	private final Wall[] walls;
-	private final Ball ball;
-	private final Ball[] balls;
+	private final List<Ball> balls;
 
 	private final boolean debug;
 
@@ -56,8 +56,7 @@ public class CatchrScreen implements Screen
 		this.debugRenderer = new Box2DDebugRenderer();
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
-		this.ball = new Ball(this.world);
-		this.balls = this.generateBalls();
+		this.balls = this.generateBalls(3);
 		this.walls = this.generateWalls(3);
 
 
@@ -65,12 +64,17 @@ public class CatchrScreen implements Screen
 		this.font = new BitmapFont();
 	}
 
-	private Ball[] generateBalls()
+	private void addBall()
 	{
-		Ball[] balls = new Ball[3];
-		for(int i = 0; i < balls.length; i++)
+		this.balls.add(new Ball(this.world));
+	}
+
+	private List<Ball> generateBalls(int n)
+	{
+		List<Ball> balls = new ArrayList<Ball>();
+		for(int i = 0; i < n; i++)
 		{
-			balls[i] = new Ball(this.world);
+			balls.add(new Ball(this.world));
 		}
 		return balls;
 	}
@@ -92,7 +96,6 @@ public class CatchrScreen implements Screen
 	public void dispose()
 	{
 		// TODO Auto-generated method stub
-		this.ball.dispose();
 		this.player.dispose();
 		this.world.dispose();
 	}
@@ -114,14 +117,14 @@ public class CatchrScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
-		boolean touched = false;
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		this.player.controller.processControls();
-		this.ball.update();
 
 		this.debugRenderer.render(this.world, this.cam.combined);
 
 		List<Contact> contactList = this.world.getContactList();
+		List<Ball> killList = new ArrayList<Ball>();
+
 		for(int i = 0; i < contactList.size(); i++)
 		{
 			Contact contact = contactList.get(i);
@@ -129,19 +132,30 @@ public class CatchrScreen implements Screen
 			if (contact.isTouching() && (contact.getFixtureA() == this.player.getSensorFixture() || contact.getFixtureB() == this.player.getSensorFixture()))
 			{
 				System.out.println("something is hitting the player!");
-				if (contact.getFixtureA() == this.ball.getFixture() || contact.getFixtureB() == this.ball.getFixture())
+				for (int j = 0; j < this.balls.size(); j++)
 				{
-					touched = true;
-					break;
-					//this.ball.dispose();
+					Ball b =  this.balls.get(j);
+					if (contact.getFixtureA() == b.getFixture() || contact.getFixtureB() == b.getFixture())
+					{
+						killList.add(b);
+						this.addBall();
+					}
+
 				}
 			}
 		}
 
-		if (touched)
+		if (killList.size() > 0)
 		{
-			this.world.destroyBody(this.ball.getBody());
+			for(int i = 0; i < killList.size(); i++)
+			{
+				Ball b = killList.get(i);
+				killList.remove(b);
+				this.world.destroyBody(b.getBody());
+			}
 		}
+
+
 
 		this.world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 

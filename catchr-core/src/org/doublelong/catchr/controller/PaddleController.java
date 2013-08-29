@@ -60,7 +60,7 @@ public class PaddleController extends InputAdapter
 			this.paddle.getBody().setLinearVelocity(new Vector2(vel.x + 2f, vel.y));
 		}
 
-		this.paddle.getBody().setAngularVelocity(2f);
+		//this.paddle.getBody().setAngularVelocity(2f);
 
 		if (Gdx.input.isKeyPressed(Keys.UP))
 		{

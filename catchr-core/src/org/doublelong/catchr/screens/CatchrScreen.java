@@ -36,7 +36,7 @@ public class CatchrScreen implements Screen
 	private final SpriteBatch batch;
 	private final BitmapFont font;
 
-	private static final float SPAWN_WAIT_TIME = 1f;
+	private static final float SPAWN_WAIT_TIME = 2f;
 	private static final float BOX_STEP = 1/60f;
 	private static final int BOX_VELOCITY_ITERATIONS = 6;
 	private static final int BOX_POSITION_ITERATIONS = 2;
@@ -106,7 +106,6 @@ public class CatchrScreen implements Screen
 	public void hide()
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

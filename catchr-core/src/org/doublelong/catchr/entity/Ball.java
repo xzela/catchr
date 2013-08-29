@@ -42,7 +42,7 @@ public class Ball
 
 	private float randomX()
 	{
-		float r = 100f + (float)(Math.random() * ((500 - 200) + 1));
+		float r = 20f + (float)(Math.random() * ((800 - 200) + 1));
 		return r;
 	}
 

@@ -9,7 +9,7 @@ public class Catchr extends Game
 {
 	public final String WINDOW_TITLE = "Catchr";
 	public final int WINDOW_HEIGHT = 600;
-	public final int WINDOW_WIDTH = 800;
+	public final int WINDOW_WIDTH = 400;
 
 	private CatchrScreen catchrScreen;
 

@@ -7,11 +7,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 
 public class Ball
 {
-	private final World world;
+	private final static float MIN_X = 30f;
+	private final float MAX_X;
+	private final Board board;
 
 	private final CircleShape shape = new CircleShape();
 
@@ -25,12 +26,13 @@ public class Ball
 
 	private final FixtureDef fixtureDef = new FixtureDef();
 
-	public Ball(World world)
+	public Ball(Board board)
 	{
-		this.world = world;
+		this.board = board;
+		this.MAX_X = board.BOARD_WIDTH - MIN_X;
 		this.bodyDef.type = BodyType.DynamicBody;
-		this.bodyDef.position.set(new Vector2(this.randomX(), 550f));
-		this.body = this.world.createBody(this.bodyDef);
+		this.bodyDef.position.set(new Vector2(this.getRandomX(), 560f));
+		this.body = this.board.getWorld().createBody(this.bodyDef);
 
 		this.shape.setRadius(10f);
 		this.fixtureDef.shape = this.shape;
@@ -38,11 +40,17 @@ public class Ball
 		this.fixtureDef.friction = 0f;
 		this.fixtureDef.restitution = 4f;
 		this.fixture = this.body.createFixture(this.fixtureDef);
+		int d = (Math.random() > .5) ? -1 : 1;
+		this.body.applyLinearImpulse(new Vector2(d * 10, 0f), this.body.getPosition());
 	}
 
-	private float randomX()
+	private float getRandomX()
 	{
-		float r = 20f + (float)(Math.random() * ((800 - 200) + 1));
+		float r = (float) Math.random() * (this.MAX_X);
+		if (r < MIN_X)
+		{
+			return MIN_X;
+		}
 		return r;
 	}
 

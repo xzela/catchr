@@ -37,9 +37,7 @@ public class Paddle
 	{
 		this.world = world;
 
-		//this.bodyDef.type = BodyType.KinematicBody;
 		this.bodyDef.type = BodyType.DynamicBody;
-		//this.bodyDef.type = BodyType.StaticBody;
 		this.bodyDef.position.set(position); //set starting position
 		this.bodyDef.fixedRotation = true;
 
@@ -48,7 +46,7 @@ public class Paddle
 		this.fixtureDef.shape = this.shape;
 		this.fixtureDef.density = 5f;
 		this.fixtureDef.friction = 0f;
-		this.fixtureDef.restitution = 0f;
+		this.fixtureDef.restitution = 1f;
 
 		this.body = this.world.createBody(this.bodyDef);
 		this.body.setGravityScale(0);

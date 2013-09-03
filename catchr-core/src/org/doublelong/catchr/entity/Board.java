@@ -13,13 +13,14 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Board
 {
 	private static final float SPAWN_WAIT_TIME = 2f;
-	private float time = 0;
+	private static final Vector2 GRAVITY = new Vector2(0, -5);
+	public static float UNIT_WIDTH = Catchr.WINDOW_WIDTH / 160;
+	public static float UNIT_HEIGHT = Catchr.WINDOW_HEIGHT / 160;
 
-	private final Vector2 gravity = new Vector2(0, -50);
+
+	private float time = 0;
 	private final OrthographicCamera cam;
 
-	public float BOARD_WIDTH;
-	public float BOARD_HEIGHT;
 
 	private final World world;
 	public World getWorld() {return this.world; }
@@ -35,11 +36,11 @@ public class Board
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
 		this.debug = debug;
-		this.BOARD_WIDTH = game.WINDOW_WIDTH;
-		this.BOARD_HEIGHT = game.WINDOW_HEIGHT;
-		this.world = new World(this.gravity, false);
+
+		this.world = new World(GRAVITY, false);
 
 		this.cam = cam;
+
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
 		this.balls = this.generateBalls(1);

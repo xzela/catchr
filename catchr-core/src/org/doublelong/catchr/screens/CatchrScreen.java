@@ -23,8 +23,14 @@ public class CatchrScreen implements Screen
 	private static final float BOX_STEP = 1/60f;
 	private static final int BOX_VELOCITY_ITERATIONS = 6;
 	private static final int BOX_POSITION_ITERATIONS = 2;
-	private static final float WORLD_TO_BOX = 0.01f;
-	private static final float BOX_TO_WORLD = 100f;
+
+
+	public static final float WORLD_TO_BOX = 0.01f;
+	public static float convertToBox(float x) { return x * WORLD_TO_BOX; }
+
+	public static final float BOX_TO_WORLD = 100f;
+	public static float convertToWorld(float x) { return x * BOX_TO_WORLD;}
+
 
 
 	public CatchrScreen(Catchr game, boolean debug)
@@ -32,14 +38,15 @@ public class CatchrScreen implements Screen
 		this.debug = debug;
 
 		this.cam = new OrthographicCamera();
-		this.cam.viewportHeight = game.WINDOW_HEIGHT;
-		this.cam.viewportWidth = game.WINDOW_WIDTH;
+		this.cam.viewportHeight = Catchr.WINDOW_HEIGHT;
+		this.cam.viewportWidth = Catchr.WINDOW_WIDTH;
 		this.cam.position.set(this.cam.viewportWidth / 2, this.cam.viewportHeight / 2, 0f);
 		this.cam.update();
 
 		this.board = new Board(game, this.cam, this.debug);
 
 		this.debugRenderer = new Box2DDebugRenderer();
+
 
 	}
 
@@ -66,7 +73,6 @@ public class CatchrScreen implements Screen
 	public void render(float delta)
 	{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
 		this.debugRenderer.render(this.board.getWorld(), this.cam.combined);
 
 		// test for collisions here!

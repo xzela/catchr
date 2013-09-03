@@ -1,5 +1,7 @@
 package org.doublelong.catchr.entity;
 
+import org.doublelong.catchr.Catchr;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -11,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 public class Ball
 {
 	private final static float MIN_X = 30f;
-	private final float MAX_X;
+	private final static float MAX_X = Catchr.WINDOW_WIDTH - MIN_X;
 	private final Board board;
 
 	private final CircleShape shape = new CircleShape();
@@ -29,7 +31,6 @@ public class Ball
 	public Ball(Board board)
 	{
 		this.board = board;
-		this.MAX_X = board.BOARD_WIDTH - MIN_X;
 		this.bodyDef.type = BodyType.DynamicBody;
 		this.bodyDef.position.set(new Vector2(this.getRandomX(), 560f));
 		this.body = this.board.getWorld().createBody(this.bodyDef);
@@ -46,7 +47,7 @@ public class Ball
 
 	private float getRandomX()
 	{
-		float r = (float) Math.random() * (this.MAX_X);
+		float r = (float) Math.random() * (MAX_X);
 		if (r < MIN_X)
 		{
 			return MIN_X;

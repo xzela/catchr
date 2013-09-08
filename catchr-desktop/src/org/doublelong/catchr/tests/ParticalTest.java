@@ -2,7 +2,6 @@ package org.doublelong.catchr.tests;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class ParticalTest implements ApplicationListener, Screen {
+public class ParticalTest implements ApplicationListener
+{
 
 	private SpriteBatch batch;
 	private ParticleEffect effect;
@@ -25,14 +25,22 @@ public class ParticalTest implements ApplicationListener, Screen {
 	@Override
 	public void create()
 	{
-		// TODO Auto-generated method stub
+		camera = new OrthographicCamera();
+		batch = new SpriteBatch();
+		effect = new ParticleEffect();
+		font = new BitmapFont();
+		camera.setToOrtho(false, 600, 600);
+
+		effect.load(Gdx.files.internal("data/squrt.p"), Gdx.files.internal("data"));
+		effect.setPosition(100f, 100f);
+		effect.start();
+
 	}
 
 	@Override
 	public void dispose()
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -45,63 +53,25 @@ public class ParticalTest implements ApplicationListener, Screen {
 	@Override
 	public void render()
 	{
-		// TODO Auto-generated method stub
+		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		camera.update();
+
+		batch.begin();
+		font.draw(batch, "string", 100f, 100f);
+		effect.draw(batch, Gdx.graphics.getDeltaTime());
+		batch.end();
 	}
 
 	@Override
 	public void resize(int width, int height)
 	{
 		// TODO Auto-generated method stub
-		float aspectRatio = (float) width / (float) height;
-		camera = new OrthographicCamera(2f * aspectRatio, 2f);
-
 	}
 
 	@Override
 	public void resume()
 	{
 		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void show()
-	{
-		batch = new SpriteBatch();
-		effect = new ParticleEffect();
-		font = new BitmapFont();
-
-		camera.update();
-		camera.apply(Gdx.gl10);
-
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		// TODO Auto-generated method stub
-
-		batch.setProjectionMatrix(camera.combined);
-
-		effect.load(Gdx.files.internal("data/fire.p"), Gdx.files.internal("data/particale.png"));
-		effect.setPosition(100f, 100f);
-		effect.start();
-	}
-
-	@Override
-	public void hide()
-	{
-		// TODO Auto-generated method stub
-		dispose();
-	}
-
-	@Override
-	public void render(float delta)
-	{
-		// TODO Auto-generated method stub
-
-		batch.begin();
-		font.draw(batch, "string", 100f, 100f);
-		effect.draw(batch, delta);
-		batch.end();
-
 	}
 }

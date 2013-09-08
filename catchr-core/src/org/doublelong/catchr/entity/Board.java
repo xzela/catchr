@@ -6,6 +6,7 @@ import java.util.List;
 import org.doublelong.catchr.Catchr;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
@@ -13,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Board
 {
 	private static final float SPAWN_WAIT_TIME = 2f;
-	private static final Vector2 GRAVITY = new Vector2(0, -5);
+	private static final Vector2 GRAVITY = new Vector2(0, -50);
 	public static float UNIT_WIDTH = Catchr.WINDOW_WIDTH / 160;
 	public static float UNIT_HEIGHT = Catchr.WINDOW_HEIGHT / 160;
 
@@ -33,6 +34,8 @@ public class Board
 
 	private final boolean debug;
 
+	private SpriteBatch batch;
+
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
 		this.debug = debug;
@@ -40,11 +43,14 @@ public class Board
 		this.world = new World(GRAVITY, false);
 
 		this.cam = cam;
+		this.cam.setToOrtho(false, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
 
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
 		this.balls = this.generateBalls(1);
 		this.walls = this.generateWalls(2);
+
+		this.batch = new SpriteBatch();
 	}
 
 	public void dispose()
@@ -65,8 +71,9 @@ public class Board
 
 	public void update(float delta)
 	{
+		this.cam.update();
 		this.player.controller.processControls();
-		this.testCollisions();
+		this.testCollisions(delta);
 		this.tick(delta);
 	}
 
@@ -98,7 +105,7 @@ public class Board
 		return walls;
 	}
 
-	private void testCollisions()
+	private void testCollisions(float delta)
 	{
 		List<Contact> contactList = this.world.getContactList();
 		List<Ball> killList = new ArrayList<Ball>();
@@ -125,6 +132,7 @@ public class Board
 			for(int i = 0; i < killList.size(); i++)
 			{
 				Ball b = killList.get(i);
+				b.runEffect(this.batch, delta);
 				killList.remove(b);
 
 				this.world.destroyBody(b.getBody());

@@ -32,7 +32,6 @@ public class CatchrScreen implements Screen
 	public static float convertToWorld(float x) { return x * BOX_TO_WORLD;}
 
 
-
 	public CatchrScreen(Catchr game, boolean debug)
 	{
 		this.debug = debug;
@@ -41,7 +40,7 @@ public class CatchrScreen implements Screen
 		this.cam.viewportHeight = Catchr.WINDOW_HEIGHT;
 		this.cam.viewportWidth = Catchr.WINDOW_WIDTH;
 		this.cam.position.set(this.cam.viewportWidth / 2, this.cam.viewportHeight / 2, 0f);
-		this.cam.update();
+
 
 		this.board = new Board(game, this.cam, this.debug);
 
@@ -72,12 +71,17 @@ public class CatchrScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
+		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		this.debugRenderer.render(this.board.getWorld(), this.cam.combined);
 
+		this.cam.update();
+
 		// test for collisions here!
 		this.board.update(delta);
+
 		this.board.getWorld().step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+
 	}
 
 	@Override

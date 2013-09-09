@@ -2,9 +2,7 @@ package org.doublelong.catchr.entity;
 
 import org.doublelong.catchr.Catchr;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -31,8 +29,6 @@ public class Ball
 
 	private final FixtureDef fixtureDef = new FixtureDef();
 
-	private final ParticleEffect effect;
-
 	public Ball(Board board)
 	{
 		this.board = board;
@@ -49,10 +45,10 @@ public class Ball
 		int d = (Math.random() > .5) ? -1 : 1;
 		this.body.applyLinearImpulse(new Vector2(d * 10, 0f), this.body.getPosition());
 
-		this.effect = new ParticleEffect();
-		this.effect.load(Gdx.files.internal("data/squrt.p"), Gdx.files.internal("data"));
-		this.effect.setPosition(100f, 100f);
-		this.effect.start();
+		//		this.effect = new ParticleEffect();
+		//		this.effect.load(Gdx.files.internal("data/squrt.p"), Gdx.files.internal("data"));
+		//		this.effect.setPosition(100f, 100f);
+		//		this.effect.start();
 	}
 
 	private float getRandomX()
@@ -70,13 +66,10 @@ public class Ball
 		this.shape.dispose();
 	}
 
-	public void runEffect(SpriteBatch batch, float delta)
+	public void explode(ParticleEmitter emitter)
 	{
 		System.out.println(this.body.getPosition());
-		//this.effect.setPosition(this.body.getPosition().x, this.body.getPosition().y);
-
-		batch.begin();
-		this.effect.draw(batch, delta);
-		batch.end();
+		emitter.setPosition(this.body.getPosition().x, this.body.getPosition().y);
+		emitter.start();
 	}
 }

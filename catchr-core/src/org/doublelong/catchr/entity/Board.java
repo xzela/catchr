@@ -5,11 +5,15 @@ import java.util.List;
 
 import org.doublelong.catchr.Catchr;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 public class Board
 {
@@ -36,6 +40,9 @@ public class Board
 
 	private SpriteBatch batch;
 
+	private final ParticleEffect effect;
+	private Array<ParticleEmitter> emitters;
+
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
 		this.debug = debug;
@@ -51,6 +58,9 @@ public class Board
 		this.walls = this.generateWalls(2);
 
 		this.batch = new SpriteBatch();
+
+		this.effect = new ParticleEffect();
+		this.effect.load(Gdx.files.internal("data/squrt.p"), Gdx.files.internal("data"));
 	}
 
 	public void dispose()
@@ -72,8 +82,13 @@ public class Board
 	public void update(float delta)
 	{
 		this.cam.update();
+
 		this.player.controller.processControls();
+		this.batch.begin();
 		this.testCollisions(delta);
+		this.effect.draw(batch, delta);
+
+		this.batch.end();
 		this.tick(delta);
 	}
 
@@ -132,7 +147,7 @@ public class Board
 			for(int i = 0; i < killList.size(); i++)
 			{
 				Ball b = killList.get(i);
-				b.runEffect(this.batch, delta);
+				b.explode(this.effect.getEmitters().get(0));
 				killList.remove(b);
 
 				this.world.destroyBody(b.getBody());

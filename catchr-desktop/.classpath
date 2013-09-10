@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="lib/gdx-backend-lwjgl.jar"/>
 	<classpathentry kind="lib" path="lib/gdx-natives.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/catchr-core"/>
+	<classpathentry kind="lib" path="lib/gdx-freetype-natives.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

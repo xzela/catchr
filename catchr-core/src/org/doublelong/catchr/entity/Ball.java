@@ -2,7 +2,11 @@ package org.doublelong.catchr.entity;
 
 import org.doublelong.catchr.Catchr;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -29,9 +33,15 @@ public class Ball
 
 	private final FixtureDef fixtureDef = new FixtureDef();
 
+	private final FreeTypeFontGenerator generator;
+	private final BitmapFont font;
+
 	public Ball(Board board)
 	{
 		this.board = board;
+		this.generator = new FreeTypeFontGenerator(Gdx.files.internal("data/kenpixel_future_square.ttf"));
+		this.font = this.generator.generateFont(14);
+
 		this.bodyDef.type = BodyType.DynamicBody;
 		this.bodyDef.position.set(new Vector2(this.getRandomX(), 560f));
 		this.body = this.board.getWorld().createBody(this.bodyDef);
@@ -71,5 +81,10 @@ public class Ball
 		System.out.println(this.body.getPosition());
 		emitter.setPosition(this.body.getPosition().x, this.body.getPosition().y);
 		emitter.start();
+	}
+
+	public void showPoints(SpriteBatch batch)
+	{
+		this.font.draw(batch, "word", 100f, 100f);
 	}
 }

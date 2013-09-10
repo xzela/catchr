@@ -60,7 +60,7 @@ public class Board
 		this.batch = new SpriteBatch();
 
 		this.effect = new ParticleEffect();
-		this.effect.load(Gdx.files.internal("data/squrt.p"), Gdx.files.internal("data"));
+		this.effect.load(Gdx.files.internal("data/squirt2.p"), Gdx.files.internal("data"));
 	}
 
 	public void dispose()
@@ -85,8 +85,8 @@ public class Board
 
 		this.player.controller.processControls();
 		this.batch.begin();
-		this.testCollisions(delta);
-		this.effect.draw(batch, delta);
+		this.testCollisions(delta, this.batch);
+		this.effect.draw(this.batch, delta);
 
 		this.batch.end();
 		this.tick(delta);
@@ -120,7 +120,7 @@ public class Board
 		return walls;
 	}
 
-	private void testCollisions(float delta)
+	private void testCollisions(float delta, SpriteBatch batch)
 	{
 		List<Contact> contactList = this.world.getContactList();
 		List<Ball> killList = new ArrayList<Ball>();
@@ -148,6 +148,7 @@ public class Board
 			{
 				Ball b = killList.get(i);
 				b.explode(this.effect.getEmitters().get(0));
+				b.showPoints(batch);
 				killList.remove(b);
 
 				this.world.destroyBody(b.getBody());

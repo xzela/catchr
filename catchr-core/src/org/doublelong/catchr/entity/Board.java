@@ -7,6 +7,7 @@ import org.doublelong.catchr.Catchr;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,10 +23,8 @@ public class Board
 	public static float UNIT_WIDTH = Catchr.WINDOW_WIDTH / 160;
 	public static float UNIT_HEIGHT = Catchr.WINDOW_HEIGHT / 160;
 
-
 	private float time = 0;
 	private final OrthographicCamera cam;
-
 
 	private final World world;
 	public World getWorld() {return this.world; }
@@ -34,11 +33,15 @@ public class Board
 	public Paddle getPlayer() { return this.player; }
 
 	private final Wall[] walls;
+
+	private int ballCount = 0;
+	private final int ballLimit = 10;
 	private final List<Ball> balls;
 
 	private final boolean debug;
 
 	private SpriteBatch batch;
+	private BitmapFont font;
 
 	private final ParticleEffect effect;
 	private Array<ParticleEmitter> emitters;
@@ -58,6 +61,7 @@ public class Board
 		this.walls = this.generateWalls(2);
 
 		this.batch = new SpriteBatch();
+		this.font = new BitmapFont();
 
 		this.effect = new ParticleEffect();
 		this.effect.load(Gdx.files.internal("data/squirt2.p"), Gdx.files.internal("data"));
@@ -85,6 +89,8 @@ public class Board
 
 		this.player.controller.processControls();
 		this.batch.begin();
+		this.font.draw(this.batch, "Points: " + String.valueOf(this.player.getPoints()), 30f, 580f);
+
 		this.testCollisions(delta, this.batch);
 		this.effect.draw(this.batch, delta);
 
@@ -94,7 +100,11 @@ public class Board
 
 	private void spwanBall()
 	{
-		this.balls.add(new Ball(this));
+		if (this.ballCount <= this.ballLimit)
+		{
+			this.balls.add(new Ball(this));
+			this.ballCount++;
+		}
 	}
 
 	private List<Ball> generateBalls(int n)
@@ -136,7 +146,14 @@ public class Board
 					Ball b =  this.balls.get(j);
 					if (contact.getFixtureA() == b.getFixture() || contact.getFixtureB() == b.getFixture())
 					{
-						killList.add(b);
+						float p = b.getPoints();
+						this.player.addPoints(p);
+						b.setPoints(p + p);
+						b.setBounceCount(b.getBounceCount() + 1);
+						if (b.getBounceCount() > 3)
+						{
+							killList.add(b);
+						}
 					}
 				}
 			}

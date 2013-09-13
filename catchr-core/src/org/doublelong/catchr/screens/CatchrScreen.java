@@ -31,7 +31,6 @@ public class CatchrScreen implements Screen
 	public static final float BOX_TO_WORLD = 100f;
 	public static float convertToWorld(float x) { return x * BOX_TO_WORLD;}
 
-
 	public CatchrScreen(Catchr game, boolean debug)
 	{
 		this.debug = debug;
@@ -45,7 +44,6 @@ public class CatchrScreen implements Screen
 		this.board = new Board(game, this.cam, this.debug);
 
 		this.debugRenderer = new Box2DDebugRenderer();
-
 
 	}
 
@@ -79,7 +77,6 @@ public class CatchrScreen implements Screen
 
 		// test for collisions here!
 		this.board.update(delta);
-
 		this.board.getWorld().step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 
 	}

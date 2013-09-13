@@ -36,6 +36,14 @@ public class Ball
 	private final FreeTypeFontGenerator generator;
 	private final BitmapFont font;
 
+	private float points = 1;
+	public float getPoints() { return this.points; }
+	public void setPoints(float points) { this.points = points; }
+
+	private int bounceCount = 0;
+	public int getBounceCount() { return this.bounceCount; }
+	public void setBounceCount(int c) { this.bounceCount = c; }
+
 	public Ball(Board board)
 	{
 		this.board = board;
@@ -48,17 +56,13 @@ public class Ball
 
 		this.shape.setRadius(10f);
 		this.fixtureDef.shape = this.shape;
-		this.fixtureDef.density = 0f;
-		this.fixtureDef.friction = 0f;
+		this.fixtureDef.density = .5f;
+		this.fixtureDef.friction = .2f;
 		this.fixtureDef.restitution = 4f;
 		this.fixture = this.body.createFixture(this.fixtureDef);
 		int d = (Math.random() > .5) ? -1 : 1;
 		this.body.applyLinearImpulse(new Vector2(d * 10, 0f), this.body.getPosition());
 
-		//		this.effect = new ParticleEffect();
-		//		this.effect.load(Gdx.files.internal("data/squrt.p"), Gdx.files.internal("data"));
-		//		this.effect.setPosition(100f, 100f);
-		//		this.effect.start();
 	}
 
 	private float getRandomX()

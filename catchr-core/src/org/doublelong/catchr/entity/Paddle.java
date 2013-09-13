@@ -16,6 +16,10 @@ public class Paddle
 	private final World world;
 	public PaddleController controller;
 
+	private float points = 0;
+	public float getPoints() { return this.points; }
+	private void setPoints(float points) { this.points = points; }
+	public void addPoints(float points) { this.setPoints(points + this.getPoints());}
 
 	private final Body body;
 	public Body getBody() { return this.body; }

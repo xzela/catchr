@@ -9,11 +9,15 @@ public class Textr
 	private Vector2 position;
 	public Vector2 getPosition() { return this.position; }
 
+	public Textr(Vector2 position)
+	{
+		this.position = position;
+	}
+
 	public Textr(Ball ball)
 	{
 		this.position = ball.getBody().getPosition();
 	}
-
 
 	public void update(float delta)
 	{

@@ -150,7 +150,7 @@ public class Board
 						this.player.addPoints(p);
 						b.setPoints(p + p);
 						b.setBounceCount(b.getBounceCount() + 1);
-						if (b.getBounceCount() > 3)
+						if (b.getBounceCount() > Ball.MAX_BOUNCE)
 						{
 							killList.add(b);
 						}

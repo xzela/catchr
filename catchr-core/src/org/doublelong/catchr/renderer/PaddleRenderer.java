@@ -25,12 +25,10 @@ public class PaddleRenderer
 	public void render(SpriteBatch batch, OrthographicCamera camera)
 	{
 		Vector2 pos = this.paddle.getBody().getPosition();
-		this.sprite.setBounds(pos.x, pos.y, Paddle.WIDTH, Paddle.HEIGHT);
-		this.sprite.setPosition(pos.x, pos.y);
+		this.sprite.setSize(Paddle.WIDTH * 2, Paddle.HEIGHT * 2);
+		//		this.sprite.setBounds(0, 0, Paddle.WIDTH, Paddle.HEIGHT);
+		this.sprite.setPosition(pos.x - Paddle.HEIGHT, pos.y);
 
-		//		batch.setProjectionMatrix(camera.combined);
-		//		batch.begin();
 		this.sprite.draw(batch);
-		//		batch.end();
 	}
 }

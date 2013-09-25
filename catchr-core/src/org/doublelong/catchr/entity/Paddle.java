@@ -3,6 +3,8 @@ package org.doublelong.catchr.entity;
 import org.doublelong.catchr.controller.PaddleController;
 import org.doublelong.catchr.renderer.PaddleRenderer;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -14,6 +16,9 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Paddle
 {
+	public static final float WIDTH = 50f;
+	public static final float HEIGHT = 10f;
+
 	private final World world;
 	public PaddleController controller;
 	public PaddleRenderer renderer;
@@ -34,7 +39,6 @@ public class Paddle
 	private final Fixture sensorFixture;
 	public Fixture getSensorFixture() { return this.sensorFixture; }
 
-
 	private final FixtureDef fixtureDef = new FixtureDef();
 
 	private final PolygonShape shape = new PolygonShape();
@@ -47,7 +51,7 @@ public class Paddle
 		this.bodyDef.position.set(position); //set starting position
 		this.bodyDef.fixedRotation = true;
 
-		this.shape.setAsBox(50f, 10f);
+		this.shape.setAsBox(WIDTH, HEIGHT);
 
 		this.fixtureDef.shape = this.shape;
 		this.fixtureDef.density = 5f;
@@ -67,5 +71,10 @@ public class Paddle
 	public void dispose()
 	{
 		this.shape.dispose();
+	}
+
+	public void render(SpriteBatch batch, OrthographicCamera camera)
+	{
+		this.renderer.render(batch, camera);
 	}
 }

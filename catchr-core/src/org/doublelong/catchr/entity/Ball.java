@@ -48,7 +48,7 @@ public class Ball
 	public Ball(Board board)
 	{
 		this.board = board;
-		this.generator = new FreeTypeFontGenerator(Gdx.files.internal("data/kenpixel_future_square.ttf"));
+		this.generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/fonts/kenpixel_future_square.ttf"));
 		this.font = this.generator.generateFont(14);
 
 		this.bodyDef.type = BodyType.DynamicBody;

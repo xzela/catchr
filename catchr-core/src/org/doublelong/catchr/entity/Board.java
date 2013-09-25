@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.doublelong.catchr.Catchr;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -64,7 +63,7 @@ public class Board
 		this.font = new BitmapFont();
 
 		this.effect = new ParticleEffect();
-		this.effect.load(Gdx.files.internal("data/squirt2.p"), Gdx.files.internal("data"));
+		//		this.effect.load(Gdx.files.internal("assets/particles/squirt2.p"), Gdx.files.internal("data"));
 	}
 
 	public void dispose()
@@ -90,6 +89,8 @@ public class Board
 		this.player.controller.processControls();
 		this.batch.begin();
 		this.font.draw(this.batch, "Points: " + String.valueOf(this.player.getPoints()), 30f, 580f);
+
+		this.player.renderer.render(this.batch, this.cam);
 
 		this.testCollisions(delta, this.batch);
 		this.effect.draw(this.batch, delta);

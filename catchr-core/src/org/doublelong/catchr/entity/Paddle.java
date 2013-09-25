@@ -1,6 +1,7 @@
 package org.doublelong.catchr.entity;
 
 import org.doublelong.catchr.controller.PaddleController;
+import org.doublelong.catchr.renderer.PaddleRenderer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,6 +16,7 @@ public class Paddle
 {
 	private final World world;
 	public PaddleController controller;
+	public PaddleRenderer renderer;
 
 	private float points = 0;
 	public float getPoints() { return this.points; }
@@ -59,6 +61,7 @@ public class Paddle
 		this.sensorFixture = this.body.createFixture(this.shape, 0);
 		this.controller = new PaddleController(this);
 
+		this.renderer = new PaddleRenderer(this);
 	}
 
 	public void dispose()

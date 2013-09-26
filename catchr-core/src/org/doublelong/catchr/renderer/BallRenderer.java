@@ -1,7 +1,6 @@
 package org.doublelong.catchr.renderer;
 
 import org.doublelong.catchr.entity.Ball;
-import org.doublelong.catchr.entity.Paddle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,9 +26,10 @@ public class BallRenderer
 	public void renderer(SpriteBatch batch, OrthographicCamera camera)
 	{
 		Vector2 pos = this.ball.getBody().getPosition();
-		this.sprite.setSize(Paddle.WIDTH * 2, Paddle.HEIGHT * 2);
+		float rad = this.ball.getFixture().getShape().getRadius();
+		//		this.sprite.setSize(Paddle.WIDTH * 2, Paddle.HEIGHT * 2);
 		//		this.sprite.setBounds(0, 0, Paddle.WIDTH, Paddle.HEIGHT);
-		this.sprite.setPosition(pos.x - Paddle.WIDTH, pos.y - Paddle.HEIGHT);
+		this.sprite.setPosition(pos.x - rad, pos.y - rad);
 
 		this.sprite.draw(batch);
 

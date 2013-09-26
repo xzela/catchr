@@ -91,7 +91,10 @@ public class Board
 		this.font.draw(this.batch, "Points: " + String.valueOf(this.player.getPoints()), 30f, 580f);
 
 		this.player.renderer.render(this.batch, this.cam);
-
+		for (Ball b : this.balls)
+		{
+			b.renderer.renderer(this.batch, this.cam);
+		}
 		this.testCollisions(delta, this.batch);
 		this.effect.draw(this.batch, delta);
 
@@ -165,7 +168,7 @@ public class Board
 			for(int i = 0; i < killList.size(); i++)
 			{
 				Ball b = killList.get(i);
-				b.explode(this.effect.getEmitters().get(0));
+				//b.explode(this.effect.getEmitters().get(0));
 				b.showPoints(batch);
 				killList.remove(b);
 

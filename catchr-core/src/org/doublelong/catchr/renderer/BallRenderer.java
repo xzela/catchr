@@ -1,5 +1,6 @@
 package org.doublelong.catchr.renderer;
 
+import org.doublelong.catchr.entity.Ball;
 import org.doublelong.catchr.entity.Paddle;
 
 import com.badlogic.gdx.Gdx;
@@ -9,26 +10,28 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class PaddleRenderer
+public class BallRenderer
 {
-	private Paddle paddle;
+	private Ball ball;
+
 	private Sprite sprite;
 	private Texture texture;
 
-	public PaddleRenderer(Paddle paddle)
+	public BallRenderer(Ball ball)
 	{
-		this.paddle = paddle;
-		this.texture = new Texture(Gdx.files.internal("assets/images/buttonDefault.png"));
+		this.ball = ball;
+		this.texture = new Texture(Gdx.files.internal("assets/images/ballBlue.png"));
 		this.sprite = new Sprite(this.texture);
 	}
 
-	public void render(SpriteBatch batch, OrthographicCamera camera)
+	public void renderer(SpriteBatch batch, OrthographicCamera camera)
 	{
-		Vector2 pos = this.paddle.getBody().getPosition();
+		Vector2 pos = this.ball.getBody().getPosition();
 		this.sprite.setSize(Paddle.WIDTH * 2, Paddle.HEIGHT * 2);
 		//		this.sprite.setBounds(0, 0, Paddle.WIDTH, Paddle.HEIGHT);
 		this.sprite.setPosition(pos.x - Paddle.WIDTH, pos.y - Paddle.HEIGHT);
 
 		this.sprite.draw(batch);
+
 	}
 }

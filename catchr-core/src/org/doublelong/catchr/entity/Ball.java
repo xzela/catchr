@@ -1,6 +1,7 @@
 package org.doublelong.catchr.entity;
 
 import org.doublelong.catchr.Catchr;
+import org.doublelong.catchr.renderer.BallRenderer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -45,6 +46,8 @@ public class Ball
 	public int getBounceCount() { return this.bounceCount; }
 	public void setBounceCount(int c) { this.bounceCount = c; }
 
+	public BallRenderer renderer;
+
 	public Ball(Board board)
 	{
 		this.board = board;
@@ -64,6 +67,7 @@ public class Ball
 		int d = (Math.random() > .5) ? -1 : 1;
 		this.body.applyLinearImpulse(new Vector2(d * 10, 0f), this.body.getPosition());
 
+		this.renderer = new BallRenderer(this);
 	}
 
 	private float getRandomX()

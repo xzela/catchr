@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.doublelong.catchr.Catchr;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -17,6 +18,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class Board
 {
+	public AssetManager manager;
+
 	private static final float SPAWN_WAIT_TIME = 2f;
 	private static final Vector2 GRAVITY = new Vector2(0, -50);
 	public static float UNIT_WIDTH = Catchr.WINDOW_WIDTH / 160;
@@ -47,6 +50,7 @@ public class Board
 
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
+		this.manager = new AssetManager();
 		this.debug = debug;
 
 		this.world = new World(GRAVITY, false);
@@ -173,6 +177,7 @@ public class Board
 				killList.remove(b);
 
 				this.world.destroyBody(b.getBody());
+				b.dispose();
 			}
 		}
 	}

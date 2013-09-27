@@ -34,4 +34,9 @@ public class BallRenderer
 		this.sprite.draw(batch);
 
 	}
+
+	public void dispose()
+	{
+		this.texture.dispose();
+	}
 }

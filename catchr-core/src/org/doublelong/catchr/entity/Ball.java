@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Ball
 {
-	public final static int MAX_BOUNCE = 2;
+	public final static int MAX_BOUNCE = 0;
 	private final static float MIN_X = 30f;
 	private final static float MAX_X = Catchr.WINDOW_WIDTH - MIN_X;
 	private final Board board;
@@ -83,6 +83,7 @@ public class Ball
 	public void dispose()
 	{
 		this.shape.dispose();
+		this.renderer.dispose();
 	}
 
 	public void explode(ParticleEmitter emitter)

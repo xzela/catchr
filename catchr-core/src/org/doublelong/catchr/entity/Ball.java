@@ -87,7 +87,6 @@ public class Ball
 
 	public void explode(ParticleEmitter emitter)
 	{
-		System.out.println(this.body.getPosition());
 		emitter.setPosition(this.body.getPosition().x, this.body.getPosition().y);
 		emitter.start();
 	}

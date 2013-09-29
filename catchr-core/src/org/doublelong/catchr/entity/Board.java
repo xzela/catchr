@@ -43,6 +43,8 @@ public class Board
 
 	private final boolean debug;
 
+	private Textr points;
+
 	private SpriteBatch batch;
 	private BitmapFont font;
 
@@ -63,6 +65,8 @@ public class Board
 
 		this.balls = this.generateBalls(1);
 		this.walls = this.generateWalls();
+
+		this.points = new Textr(new Vector2(30f, 580f));
 
 		this.batch = new SpriteBatch();
 		this.font = new BitmapFont();
@@ -93,7 +97,8 @@ public class Board
 
 		this.player.controller.processControls();
 		this.batch.begin();
-		this.font.draw(this.batch, "Points: " + String.valueOf(this.player.getPoints()), 30f, 580f);
+		this.points.setMessage("Points: " + String.valueOf(this.player.getPoints()));
+		this.points.render(this.batch, this.cam);
 
 		this.player.render(this.batch, this.cam);
 		for (Wall wall : this.walls)
@@ -109,7 +114,6 @@ public class Board
 				this.balls.remove(b);
 				this.world.destroyBody(b.getBody());
 			}
-
 		}
 		this.testCollisions(delta, this.batch);
 		this.effect.draw(this.batch, delta);

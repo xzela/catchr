@@ -62,7 +62,7 @@ public class Board
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
 		this.balls = this.generateBalls(1);
-		this.walls = this.generateWalls(2);
+		this.walls = this.generateWalls();
 
 		this.batch = new SpriteBatch();
 		this.font = new BitmapFont();
@@ -96,6 +96,10 @@ public class Board
 		this.font.draw(this.batch, "Points: " + String.valueOf(this.player.getPoints()), 30f, 580f);
 
 		this.player.renderer.render(this.batch, this.cam);
+		for (Wall wall : this.walls)
+		{
+			wall.render(this.batch, this.cam);
+		}
 		for (int i = 0; i < this.balls.size(); i++)
 		{
 			Ball b = this.balls.get(i);
@@ -133,14 +137,27 @@ public class Board
 		return balls;
 	}
 
-	private Wall[] generateWalls(int n)
+	private Wall[] generateWalls()
 	{
+		int numberOfWallBlocks = Math.round(this.cam.viewportHeight / Wall.HEIGHT);
+		Wall[] walls = new Wall[numberOfWallBlocks]; // times 2 because we have two walls
+		//for (int n = 0; n < 2; n++)
+		//{
+		float y_pos = Wall.HEIGHT;
+		for (int i = 0; i < numberOfWallBlocks; i++)
+		{
+			walls[i] = new Wall(this.world, new Vector2(Wall.WIDTH, y_pos));
+			y_pos = y_pos + Wall.HEIGHT;
+		}
+
+		//}
+
 		// there are only two walls
-		Wall[] walls = new Wall[n];
+
 		// left wall starts at: (0,0), bounds: (10f, viewportHeight)
-		walls[0] = new Wall(this.world, new Vector2(11, 1), new Vector2(10f, this.cam.viewportHeight));
+		//walls[0] = new Wall(this.world, new Vector2(11, 1), new Vector2(10f, this.cam.viewportHeight));
 		// right wall starts at (viewportWidth - wall width,0), bounds: (10f, viewportHeight)
-		walls[1] = new Wall(this.world, new Vector2(this.cam.viewportWidth - 10, 1), new Vector2(10f, this.cam.viewportHeight));
+		//walls[1] = new Wall(this.world, new Vector2(this.cam.viewportWidth - 10, 1), new Vector2(10f, this.cam.viewportHeight));
 		// bottom wall: starts at (0, 0)
 		// walls[2] = new Wall(this.world, new Vector2(10f, 1f), new Vector2(this.cam.viewportWidth, 10f));
 		return walls;

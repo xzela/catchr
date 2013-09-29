@@ -1,6 +1,6 @@
 package org.doublelong.catchr.renderer;
 
-import org.doublelong.catchr.entity.Paddle;
+import org.doublelong.catchr.entity.Wall;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,25 +9,27 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class PaddleRenderer
+public class WallRenderer
 {
-	private Paddle paddle;
+	private Wall wall;
 	private Sprite sprite;
 	private Texture texture;
 
-	public PaddleRenderer(Paddle paddle)
+
+	public WallRenderer(Wall wall)
 	{
-		this.paddle = paddle;
-		this.texture = new Texture(Gdx.files.internal("assets/images/buttonDefault.png"));
+		this.wall = wall;
+		this.texture = new Texture(Gdx.files.internal("assets/images/ground_dirt.png"));
 		this.sprite = new Sprite(this.texture);
+
 	}
 
 	public void render(SpriteBatch batch, OrthographicCamera camera)
 	{
-		Vector2 pos = this.paddle.getBody().getPosition();
-		this.sprite.setSize(Paddle.WIDTH * 2, Paddle.HEIGHT * 2);
-		this.sprite.setPosition(pos.x - Paddle.WIDTH, pos.y - Paddle.HEIGHT);
+		Vector2 pos = this.wall.getBody().getPosition();
+		this.sprite.setSize(Wall.WIDTH * 2, Wall.HEIGHT * 2);
+		this.sprite.setPosition(pos.x - Wall.WIDTH, pos.y - Wall.HEIGHT);
 
-		this.sprite.draw(batch);
+		//this.sprite.draw(batch);
 	}
 }

@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 public class BallRenderer
 {
 	private Ball ball;
-
 	private Sprite sprite;
 	private Texture texture;
 
@@ -27,16 +26,7 @@ public class BallRenderer
 	{
 		Vector2 pos = this.ball.getBody().getPosition();
 		float rad = this.ball.getFixture().getShape().getRadius();
-		//		this.sprite.setSize(Paddle.WIDTH * 2, Paddle.HEIGHT * 2);
-		//		this.sprite.setBounds(0, 0, Paddle.WIDTH, Paddle.HEIGHT);
 		this.sprite.setPosition(pos.x - rad, pos.y - rad);
-
 		this.sprite.draw(batch);
-
-	}
-
-	public void dispose()
-	{
-		this.texture.dispose();
 	}
 }

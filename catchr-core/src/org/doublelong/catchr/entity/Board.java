@@ -95,9 +95,16 @@ public class Board
 		this.font.draw(this.batch, "Points: " + String.valueOf(this.player.getPoints()), 30f, 580f);
 
 		this.player.renderer.render(this.batch, this.cam);
-		for (Ball b : this.balls)
+		for (int i = 0; i < this.balls.size(); i++)
 		{
+			Ball b = this.balls.get(i);
 			b.renderer.renderer(this.batch, this.cam);
+			if (b.getBody().getPosition().y < 0)
+			{
+				this.balls.remove(b);
+				this.world.destroyBody(b.getBody());
+			}
+
 		}
 		this.testCollisions(delta, this.batch);
 		this.effect.draw(this.batch, delta);
@@ -161,6 +168,7 @@ public class Board
 						if (b.getBounceCount() > Ball.MAX_BOUNCE)
 						{
 							killList.add(b);
+							this.balls.remove(j);
 						}
 					}
 				}
@@ -177,7 +185,6 @@ public class Board
 				killList.remove(b);
 
 				this.world.destroyBody(b.getBody());
-				b.dispose();
 			}
 		}
 	}

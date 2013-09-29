@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.doublelong.catchr.Catchr;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -67,7 +68,7 @@ public class Board
 		this.font = new BitmapFont();
 
 		this.effect = new ParticleEffect();
-		//		this.effect.load(Gdx.files.internal("assets/particles/squirt2.p"), Gdx.files.internal("data"));
+		this.effect.load(Gdx.files.internal("assets/particles/squirt2.p"), Gdx.files.internal("assets/images"));
 	}
 
 	public void dispose()
@@ -180,7 +181,7 @@ public class Board
 			for(int i = 0; i < killList.size(); i++)
 			{
 				Ball b = killList.get(i);
-				//b.explode(this.effect.getEmitters().get(0));
+				b.explode(this.effect.getEmitters().get(0));
 				b.showPoints(batch);
 				killList.remove(b);
 

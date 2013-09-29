@@ -30,6 +30,6 @@ public class WallRenderer
 		this.sprite.setSize(Wall.WIDTH * 2, Wall.HEIGHT * 2);
 		this.sprite.setPosition(pos.x - Wall.WIDTH, pos.y - Wall.HEIGHT);
 
-		//this.sprite.draw(batch);
+		this.sprite.draw(batch);
 	}
 }

@@ -21,7 +21,7 @@ public class Paddle
 
 	private final World world;
 	public PaddleController controller;
-	public PaddleRenderer renderer;
+	private PaddleRenderer renderer;
 
 	private float points = 0;
 	public float getPoints() { return this.points; }

@@ -75,7 +75,6 @@ public class CatchrScreen implements Screen
 
 		this.cam.update();
 
-		// test for collisions here!
 		this.board.update(delta);
 		this.board.getWorld().step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 

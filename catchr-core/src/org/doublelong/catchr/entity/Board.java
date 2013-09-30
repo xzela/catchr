@@ -97,7 +97,7 @@ public class Board
 
 		this.player.controller.processControls();
 		this.batch.begin();
-		this.points.setMessage("Points: " + String.valueOf(this.player.getPoints()));
+		this.points.setMessage("Points: " + String.valueOf(Math.round(this.player.getPoints())));
 		this.points.render(this.batch, this.cam);
 
 		this.player.render(this.batch, this.cam);

@@ -37,7 +37,7 @@ public class Board
 
 	private final Wall[] walls;
 
-	//private final List<Textr> s;
+	private final List<Textr> bt = new ArrayList<Textr>();
 
 	private int ballCount = 0;
 	private final int ballLimit = 10;
@@ -99,7 +99,7 @@ public class Board
 
 		this.player.controller.processControls();
 		this.batch.begin();
-		this.score.setMessage("Points: " + String.valueOf(Math.round(this.player.getScore())));
+		this.score.setMessage("Score: " + String.valueOf(Math.round(this.player.getScore())));
 		this.score.render(this.batch, this.cam);
 
 		this.player.render(this.batch, this.cam);
@@ -117,6 +117,13 @@ public class Board
 				this.world.destroyBody(b.getBody());
 			}
 		}
+
+		for (Textr t : this.bt)
+		{
+			if (t.getTimer() < 100)
+				t.render(this.batch, this.cam);
+		}
+
 		this.testCollisions(delta, this.batch);
 		this.effect.draw(this.batch, delta);
 
@@ -200,7 +207,7 @@ public class Board
 			{
 				Ball b = killList.get(i);
 				b.explode(this.effect.getEmitters().get(0));
-				//b.showPoints(batch);
+				this.bt.add(b.getScoreText());
 				killList.remove(b);
 
 				this.world.destroyBody(b.getBody());

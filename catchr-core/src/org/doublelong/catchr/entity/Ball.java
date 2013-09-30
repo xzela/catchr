@@ -89,4 +89,11 @@ public class Ball
 		emitter.setPosition(this.body.getPosition().x, this.body.getPosition().y);
 		emitter.start();
 	}
+
+	public Textr getScoreText()
+	{
+		Textr t = new Textr(this);
+		t.setMessage("100+");
+		return t;
+	}
 }

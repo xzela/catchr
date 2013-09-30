@@ -18,6 +18,9 @@ public class Textr
 	private String message;
 	public void setMessage(String message) { this.message = message; }
 
+	private int timer = 0;
+	public int getTimer() { return this.timer; }
+
 	public Textr(Vector2 position)
 	{
 		this.position = position;
@@ -38,5 +41,6 @@ public class Textr
 	public void render(SpriteBatch batch, OrthographicCamera cam)
 	{
 		this.font.draw(batch, this.message, this.position.x, this.position.y);
+		this.timer++;
 	}
 }

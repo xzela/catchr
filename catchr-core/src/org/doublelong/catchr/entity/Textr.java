@@ -27,12 +27,6 @@ public class Textr
 		this.font = this.generator.generateFont(14);
 	}
 
-	public Textr(Ball ball)
-	{
-		this.position = ball.getBody().getPosition();
-		this.font = this.generator.generateFont(14);
-	}
-
 	public void update(float delta)
 	{
 

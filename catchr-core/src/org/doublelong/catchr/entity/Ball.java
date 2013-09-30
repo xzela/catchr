@@ -92,7 +92,7 @@ public class Ball
 
 	public Textr getScoreText()
 	{
-		Textr t = new Textr(this);
+		Textr t = new Textr(this.body.getPosition());
 		t.setMessage("100+");
 		return t;
 	}

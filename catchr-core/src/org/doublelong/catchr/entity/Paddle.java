@@ -23,10 +23,9 @@ public class Paddle
 	public PaddleController controller;
 	private PaddleRenderer renderer;
 
-	private float points = 0;
-	public float getPoints() { return this.points; }
-	private void setPoints(float points) { this.points = points; }
-	public void addPoints(float points) { this.setPoints(points + this.getPoints());}
+	private float score = 0;
+	public float getScore() { return this.score; }
+	public void addPoint(float point) { this.score = this.score + point;}
 
 	private final Body body;
 	public Body getBody() { return this.body; }

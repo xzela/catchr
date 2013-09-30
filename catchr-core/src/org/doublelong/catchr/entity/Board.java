@@ -37,13 +37,15 @@ public class Board
 
 	private final Wall[] walls;
 
+	//private final List<Textr> s;
+
 	private int ballCount = 0;
 	private final int ballLimit = 10;
 	private final List<Ball> balls;
 
 	private final boolean debug;
 
-	private Textr points;
+	private Textr score;
 
 	private SpriteBatch batch;
 	private BitmapFont font;
@@ -66,7 +68,7 @@ public class Board
 		this.balls = this.generateBalls(1);
 		this.walls = this.generateWalls();
 
-		this.points = new Textr(new Vector2(30f, 580f));
+		this.score = new Textr(new Vector2(30f, 580f));
 
 		this.batch = new SpriteBatch();
 		this.font = new BitmapFont();
@@ -97,8 +99,8 @@ public class Board
 
 		this.player.controller.processControls();
 		this.batch.begin();
-		this.points.setMessage("Points: " + String.valueOf(Math.round(this.player.getPoints())));
-		this.points.render(this.batch, this.cam);
+		this.score.setMessage("Points: " + String.valueOf(Math.round(this.player.getScore())));
+		this.score.render(this.batch, this.cam);
 
 		this.player.render(this.batch, this.cam);
 		for (Wall wall : this.walls)
@@ -179,7 +181,7 @@ public class Board
 					if (contact.getFixtureA() == b.getFixture() || contact.getFixtureB() == b.getFixture())
 					{
 						float p = b.getPoints();
-						this.player.addPoints(p);
+						this.player.addPoint(p);
 						b.setPoints(p + p);
 						b.setBounceCount(b.getBounceCount() + 1);
 						if (b.getBounceCount() > Ball.MAX_BOUNCE)
@@ -198,7 +200,7 @@ public class Board
 			{
 				Ball b = killList.get(i);
 				b.explode(this.effect.getEmitters().get(0));
-				b.showPoints(batch);
+				//b.showPoints(batch);
 				killList.remove(b);
 
 				this.world.destroyBody(b.getBody());

@@ -6,7 +6,6 @@ import org.doublelong.catchr.renderer.BallRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -89,10 +88,5 @@ public class Ball
 	{
 		emitter.setPosition(this.body.getPosition().x, this.body.getPosition().y);
 		emitter.start();
-	}
-
-	public void showPoints(SpriteBatch batch)
-	{
-		this.font.draw(batch, "word", 100f, 100f);
 	}
 }

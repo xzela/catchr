@@ -83,6 +83,8 @@ public class Board
 	{
 		this.world.dispose();
 		this.player.dispose();
+		this.music.dispose();
+		this.effect.dispose();
 	}
 
 	public void tick(float delta)
@@ -198,6 +200,7 @@ public class Board
 						b.playSound();
 						b.setPoints(p + p);
 						b.setBounceCount(b.getBounceCount() + 1);
+						b.renderer.changeTexture();
 						if (b.getBounceCount() > Ball.MAX_BOUNCE)
 						{
 							killList.add(b);

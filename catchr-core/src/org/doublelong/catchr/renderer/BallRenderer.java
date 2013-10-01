@@ -29,4 +29,10 @@ public class BallRenderer
 		this.sprite.setPosition(pos.x - rad, pos.y - rad);
 		this.sprite.draw(batch);
 	}
+
+	public void changeTexture()
+	{
+		this.texture = new Texture(Gdx.files.internal("assets/images/ballGrey.png"));
+		this.sprite = new Sprite(this.texture);
+	}
 }

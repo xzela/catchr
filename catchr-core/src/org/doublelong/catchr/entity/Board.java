@@ -52,12 +52,15 @@ public class Board
 	private final ParticleEffect effect;
 	private Array<ParticleEmitter> emitters;
 
-	private Music music = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/contemplation_2.mp3"));
+	private Music music;
 	private float pitch = 1f;
-	private Sound fallOutSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/laser1.mp3"));
+	private Sound fallOutSound;
+	private long multipler = 1;
 
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
+		this.music = game.manager.get("assets/sounds/contemplation_2.mp3", Music.class);
+		this.fallOutSound = game.manager.get("assets/sounds/laser1.mp3", Sound.class);
 		this.music.play();
 
 		this.debug = debug;
@@ -188,7 +191,8 @@ public class Board
 					Ball b =  this.balls.get(j);
 					if (contact.getFixtureA() == b.getFixture() || contact.getFixtureB() == b.getFixture())
 					{
-						float p = b.getPoints();
+
+						float p = b.getPoints() * this.multipler;
 						this.bt.add(b.getScoreText());
 						this.player.addPoint(p);
 						b.playSound(this.pitch);
@@ -201,6 +205,7 @@ public class Board
 							this.balls.remove(j);
 						}
 						this.pitch = this.pitch + .01f;
+						//this.multipler += 1;
 					}
 				}
 			}
@@ -229,6 +234,7 @@ public class Board
 				this.balls.remove(b);
 				this.world.destroyBody(b.getBody());
 				this.pitch = 1f;
+				this.multipler = 1;
 				this.fallOutSound.play();
 			}
 		}

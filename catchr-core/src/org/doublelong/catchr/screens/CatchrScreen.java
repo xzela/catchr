@@ -4,12 +4,11 @@ import org.doublelong.catchr.Catchr;
 import org.doublelong.catchr.entity.Board;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
-public class CatchrScreen implements Screen
+public class CatchrScreen extends AbstractScreen
 {
 	private final Board board;
 
@@ -33,6 +32,7 @@ public class CatchrScreen implements Screen
 
 	public CatchrScreen(Catchr game, boolean debug)
 	{
+		super(game);
 		this.debug = debug;
 
 		this.cam = new OrthographicCamera();
@@ -54,19 +54,6 @@ public class CatchrScreen implements Screen
 	}
 
 	@Override
-	public void hide()
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void pause()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void render(float delta)
 	{
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
@@ -78,25 +65,5 @@ public class CatchrScreen implements Screen
 		this.board.update(delta);
 		this.board.getWorld().step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 
-	}
-
-	@Override
-	public void resize(int width, int height)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resume()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void show()
-	{
-		// TODO Auto-generated method stub
 	}
 }

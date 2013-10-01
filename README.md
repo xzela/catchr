@@ -14,8 +14,8 @@ Image Assets by Kenney Vleugels (www.kenney.nl)
  - /assets/images/ground_dirt.png
 
 Music by Bart Kelsey (http://opengameart.org/users/bart)
--- /assets/sounds/contemplation_2.mp3
+- /assets/sounds/contemplation_2.mp3
 
 Digital sound effects by Kenney Vleugels (www.kenney.nl)
--- /assets/sounds/laser1.mp3
--- /assets/sounds/zap2.mp3
+- /assets/sounds/laser1.mp3
+- /assets/sounds/zap2.mp3

@@ -99,14 +99,14 @@ public class Ball
 	public Textr getScoreText()
 	{
 		Textr t = new Textr(this.body.getPosition());
-		t.setMessage(String.valueOf(this.points) + "+");
+		t.setMessage(String.valueOf(Math.round(this.points)) + "+");
 		return t;
 	}
 
-	public void playSound()
+	public void playSound(float pitch)
 	{
 		this.soundId = this.sound.play();
-		this.sound.setPitch(this.soundId, this.soundPitch);
+		this.sound.setPitch(this.soundId, pitch);
 		this.soundPitch = this.soundPitch + .5f;
 	}
 }

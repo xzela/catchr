@@ -7,6 +7,7 @@ import org.doublelong.catchr.Catchr;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -52,7 +53,8 @@ public class Board
 	private Array<ParticleEmitter> emitters;
 
 	private Music music = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/contemplation_2.mp3"));
-
+	private float pitch = 1f;
+	private Sound fallOutSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/laser1.mp3"));
 
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
@@ -85,6 +87,7 @@ public class Board
 		this.player.dispose();
 		this.music.dispose();
 		this.effect.dispose();
+		this.fallOutSound.dispose();
 	}
 
 	public void tick(float delta)
@@ -111,16 +114,6 @@ public class Board
 		{
 			wall.render(this.batch, this.cam);
 		}
-		for (int i = 0; i < this.balls.size(); i++)
-		{
-			Ball b = this.balls.get(i);
-			b.renderer.renderer(this.batch, this.cam);
-			if (b.getBody().getPosition().y < 0)
-			{
-				this.balls.remove(b);
-				this.world.destroyBody(b.getBody());
-			}
-		}
 		for (int i = 0; i < this.bt.size(); i++)
 		{
 			Textr t = this.bt.get(i);
@@ -132,6 +125,7 @@ public class Board
 		}
 
 		this.testCollisions(delta, this.batch);
+		this.testFallout(delta);
 		this.effect.draw(this.batch, delta);
 
 		this.batch.end();
@@ -197,7 +191,7 @@ public class Board
 						float p = b.getPoints();
 						this.bt.add(b.getScoreText());
 						this.player.addPoint(p);
-						b.playSound();
+						b.playSound(this.pitch);
 						b.setPoints(p + p);
 						b.setBounceCount(b.getBounceCount() + 1);
 						b.renderer.changeTexture();
@@ -206,6 +200,7 @@ public class Board
 							killList.add(b);
 							this.balls.remove(j);
 						}
+						this.pitch = this.pitch + .01f;
 					}
 				}
 			}
@@ -219,6 +214,22 @@ public class Board
 				b.explode(this.effect.getEmitters().get(0));
 				killList.remove(b);
 				this.world.destroyBody(b.getBody());
+			}
+		}
+	}
+
+	private void testFallout(float delta)
+	{
+		for (int i = 0; i < this.balls.size(); i++)
+		{
+			Ball b = this.balls.get(i);
+			b.renderer.renderer(this.batch, this.cam);
+			if (b.getBody().getPosition().y < 0)
+			{
+				this.balls.remove(b);
+				this.world.destroyBody(b.getBody());
+				this.pitch = 1f;
+				this.fallOutSound.play();
 			}
 		}
 	}

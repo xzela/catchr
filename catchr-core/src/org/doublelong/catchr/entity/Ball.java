@@ -37,7 +37,7 @@ public class Ball
 	private final FreeTypeFontGenerator generator;
 	private final BitmapFont font;
 
-	private float points = 1;
+	private float points = 100;
 	public float getPoints() { return this.points; }
 	public void setPoints(float points) { this.points = points; }
 
@@ -93,7 +93,7 @@ public class Ball
 	public Textr getScoreText()
 	{
 		Textr t = new Textr(this.body.getPosition());
-		t.setMessage("100+");
+		t.setMessage(String.valueOf(this.points) + "+");
 		return t;
 	}
 }

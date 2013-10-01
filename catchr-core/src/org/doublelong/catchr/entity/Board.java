@@ -6,7 +6,7 @@ import java.util.List;
 import org.doublelong.catchr.Catchr;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -19,8 +19,6 @@ import com.badlogic.gdx.utils.Array;
 
 public class Board
 {
-	public AssetManager manager;
-
 	private static final float SPAWN_WAIT_TIME = 2f;
 	private static final Vector2 GRAVITY = new Vector2(0, -50);
 	public static float UNIT_WIDTH = Catchr.WINDOW_WIDTH / 160;
@@ -53,9 +51,12 @@ public class Board
 	private final ParticleEffect effect;
 	private Array<ParticleEmitter> emitters;
 
+	private Music music = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/contemplation_2.mp3"));
+
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
-		this.manager = new AssetManager();
+		this.music.play();
+
 		this.debug = debug;
 
 		this.world = new World(GRAVITY, false);
@@ -117,11 +118,14 @@ public class Board
 				this.world.destroyBody(b.getBody());
 			}
 		}
-
-		for (Textr t : this.bt)
+		for (int i = 0; i < this.bt.size(); i++)
 		{
+			Textr t = this.bt.get(i);
 			if (t.getTimer() < 100)
+			{
+				t.update(delta);
 				t.render(this.batch, this.cam);
+			}
 		}
 
 		this.testCollisions(delta, this.batch);
@@ -188,7 +192,9 @@ public class Board
 					if (contact.getFixtureA() == b.getFixture() || contact.getFixtureB() == b.getFixture())
 					{
 						float p = b.getPoints();
+						this.bt.add(b.getScoreText());
 						this.player.addPoint(p);
+
 						b.setPoints(p + p);
 						b.setBounceCount(b.getBounceCount() + 1);
 						if (b.getBounceCount() > Ball.MAX_BOUNCE)
@@ -207,9 +213,7 @@ public class Board
 			{
 				Ball b = killList.get(i);
 				b.explode(this.effect.getEmitters().get(0));
-				this.bt.add(b.getScoreText());
 				killList.remove(b);
-
 				this.world.destroyBody(b.getBody());
 			}
 		}

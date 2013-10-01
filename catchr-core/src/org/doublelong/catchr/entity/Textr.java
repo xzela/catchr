@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Textr
 {
+	private float alpha = 1f;
 	private Vector2 position;
 	public Vector2 getPosition() { return this.position; }
 
@@ -23,17 +24,27 @@ public class Textr
 
 	public Textr(Vector2 position)
 	{
-		this.position = position;
+		this.position = new Vector2(position);
 		this.font = this.generator.generateFont(14);
 	}
 
 	public void update(float delta)
 	{
 
+		if (this.alpha < 0)
+		{
+			this.alpha = 0;
+		}
+		else
+		{
+			this.alpha = this.alpha - .01f;
+		}
+		this.position.y = this.position.y + .7f;
 	}
 
 	public void render(SpriteBatch batch, OrthographicCamera cam)
 	{
+		this.font.setColor(2f, 2f, 2f, this.alpha);
 		this.font.draw(batch, this.message, this.position.x, this.position.y);
 		this.timer++;
 	}

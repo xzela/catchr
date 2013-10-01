@@ -53,6 +53,7 @@ public class Board
 
 	private Music music = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/contemplation_2.mp3"));
 
+
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
 		this.music.play();
@@ -194,7 +195,7 @@ public class Board
 						float p = b.getPoints();
 						this.bt.add(b.getScoreText());
 						this.player.addPoint(p);
-
+						b.playSound();
 						b.setPoints(p + p);
 						b.setBounceCount(b.getBounceCount() + 1);
 						if (b.getBounceCount() > Ball.MAX_BOUNCE)

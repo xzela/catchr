@@ -4,6 +4,7 @@ import org.doublelong.catchr.Catchr;
 import org.doublelong.catchr.renderer.BallRenderer;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -47,6 +48,10 @@ public class Ball
 
 	public BallRenderer renderer;
 
+	private Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zap2.mp3"));
+	private long soundId;
+	private float soundPitch = 1f;
+
 	public Ball(Board board)
 	{
 		this.board = board;
@@ -82,6 +87,7 @@ public class Ball
 	public void dispose()
 	{
 		this.shape.dispose();
+		this.sound.dispose();
 	}
 
 	public void explode(ParticleEmitter emitter)
@@ -95,5 +101,12 @@ public class Ball
 		Textr t = new Textr(this.body.getPosition());
 		t.setMessage(String.valueOf(this.points) + "+");
 		return t;
+	}
+
+	public void playSound()
+	{
+		this.soundId = this.sound.play();
+		this.sound.setPitch(this.soundId, this.soundPitch);
+		this.soundPitch = this.soundPitch + .5f;
 	}
 }

@@ -14,13 +14,18 @@ public class Textr
 	public Vector2 getPosition() { return this.position; }
 
 	private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/fonts/kenpixel_future_square.ttf"));
-	private BitmapFont font;
+	public BitmapFont font;
 
 	private String message;
 	public void setMessage(String message) { this.message = message; }
 
 	private int timer = 0;
 	public int getTimer() { return this.timer; }
+
+	public Textr()
+	{
+		this.font = this.generator.generateFont(14);
+	}
 
 	public Textr(Vector2 position)
 	{

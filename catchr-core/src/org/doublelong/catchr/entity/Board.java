@@ -9,7 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -47,7 +46,6 @@ public class Board
 	private Textr score;
 
 	private SpriteBatch batch;
-	private BitmapFont font;
 
 	private final ParticleEffect effect;
 	private Array<ParticleEmitter> emitters;
@@ -64,7 +62,6 @@ public class Board
 		this.music.play();
 
 		this.debug = debug;
-
 		this.world = new World(GRAVITY, false);
 
 		this.cam = cam;
@@ -75,10 +72,9 @@ public class Board
 		this.balls = this.generateBalls(1);
 		this.walls = this.generateWalls();
 
-		this.score = new Textr(new Vector2(30f, 580f));
-
 		this.batch = new SpriteBatch();
-		this.font = new BitmapFont();
+
+		this.score = new Textr(new Vector2(30f, 580f));
 
 		this.effect = new ParticleEffect();
 		this.effect.load(Gdx.files.internal("assets/particles/squirt2.p"), Gdx.files.internal("assets/images"));

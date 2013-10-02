@@ -37,6 +37,7 @@ public class LoadingScreen extends AbstractScreen
 
 		this.stage.addActor(this.logo);
 
+
 	}
 
 	@Override
@@ -45,8 +46,6 @@ public class LoadingScreen extends AbstractScreen
 		stage.setViewport(width, height, false);
 		this.logo.setX((width - logo.getWidth()) / 2);
 		this.logo.setY((height - logo.getHeight()) / 2);
-
-
 	}
 
 	@Override

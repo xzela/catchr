@@ -53,7 +53,8 @@ public class Board
 	private Music music;
 	private float pitch = 1f;
 	private Sound fallOutSound;
-	private long multipler = 1;
+	private long multiplier = 1;
+	public long getMultiplier() { return this.multiplier; }
 
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
@@ -186,7 +187,7 @@ public class Board
 					if (contact.getFixtureA() == b.getFixture() || contact.getFixtureB() == b.getFixture())
 					{
 
-						float p = b.getPoints() * this.multipler;
+						float p = b.getPoints() * this.multiplier;
 						this.bt.add(b.getScoreText());
 						this.player.addPoint(p);
 						b.playSound(this.pitch);
@@ -199,7 +200,7 @@ public class Board
 							this.balls.remove(j);
 						}
 						this.pitch = this.pitch + .01f;
-						//this.multipler += 1;
+						this.multiplier += 1;
 					}
 				}
 			}
@@ -228,7 +229,7 @@ public class Board
 				this.balls.remove(b);
 				this.world.destroyBody(b.getBody());
 				this.pitch = 1f;
-				this.multipler = 1;
+				this.multiplier = 1;
 				this.fallOutSound.play();
 			}
 		}

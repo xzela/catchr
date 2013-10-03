@@ -47,7 +47,7 @@ public class Textr
 		this.position.y = this.position.y + .7f;
 	}
 
-	public void render(SpriteBatch batch, OrthographicCamera cam)
+	public void render(SpriteBatch batch, OrthographicCamera camera)
 	{
 		this.font.setColor(2f, 2f, 2f, this.alpha);
 		this.font.draw(batch, this.message, this.position.x, this.position.y);

@@ -43,7 +43,7 @@ public class Board
 
 	private final boolean debug;
 
-	private Textr score;
+	private HUD hud;
 
 	private SpriteBatch batch;
 
@@ -74,7 +74,7 @@ public class Board
 
 		this.batch = new SpriteBatch();
 
-		this.score = new Textr(new Vector2(30f, 580f));
+		this.hud = new HUD(this);
 
 		this.effect = new ParticleEffect();
 		this.effect.load(Gdx.files.internal("assets/particles/squirt2.p"), Gdx.files.internal("assets/images"));
@@ -102,12 +102,10 @@ public class Board
 	public void update(float delta)
 	{
 		this.cam.update();
-
+		this.hud.update(delta);
 		this.player.controller.processControls();
 		this.batch.begin();
-		this.score.setMessage("Score: " + String.valueOf(Math.round(this.player.getScore())));
-		this.score.render(this.batch, this.cam);
-
+		this.hud.render(this.batch, this.cam);
 		this.player.render(this.batch, this.cam);
 		for (Wall wall : this.walls)
 		{

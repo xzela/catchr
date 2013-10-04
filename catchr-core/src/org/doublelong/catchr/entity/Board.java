@@ -6,6 +6,7 @@ import java.util.List;
 import org.doublelong.catchr.Catchr;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,12 +20,13 @@ import com.badlogic.gdx.utils.Array;
 
 public class Board
 {
-	private final Catchr game;
-	public Catchr getGame() { return this.game; }
 	private static final float SPAWN_WAIT_TIME = 2f;
 	private static final Vector2 GRAVITY = new Vector2(0, -50);
 	public static float UNIT_WIDTH = Catchr.WINDOW_WIDTH / 160;
 	public static float UNIT_HEIGHT = Catchr.WINDOW_HEIGHT / 160;
+
+	private final Catchr game;
+	public Catchr getGame() { return this.game; }
 
 	private float time = 0;
 	private final OrthographicCamera cam;
@@ -40,10 +42,16 @@ public class Board
 	private final List<Textr> ballTextrs = new ArrayList<Textr>();
 
 	private int ballCount = 0;
-	private final int ballLimit = 10;
+	private int ballLimit = 4;
+
 	private final List<Ball> balls;
 	public List<Ball> getBalls() { return this.balls; }
-	public void setBalls(int n) { this.generateBalls(n); }
+	public void setBalls(int limit)
+	{
+		this.ballCount = 0;
+		this.ballLimit = limit;
+		this.generateBalls(1);
+	}
 
 	private final boolean debug;
 
@@ -75,7 +83,9 @@ public class Board
 
 		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
 
-		this.balls = this.generateBalls(1);
+		this.balls = new ArrayList<Ball>();
+		this.balls.add(new Ball(this));
+
 		this.walls = this.generateWalls();
 
 		this.batch = new SpriteBatch();
@@ -129,10 +139,23 @@ public class Board
 
 		this.testCollisions(delta, this.batch);
 		this.testFallout(delta);
+		this.isDone();
 		this.effect.draw(this.batch, delta);
 
 		this.batch.end();
 		this.tick(delta);
+	}
+
+	private void isDone()
+	{
+		if (this.balls.size() == 0)
+		{
+			if(Gdx.input.isKeyPressed(Keys.SPACE))
+			{
+				this.ballCount = 0;
+				this.ballLimit = 10;
+			}
+		}
 	}
 
 	private void spwanBall()
@@ -238,8 +261,9 @@ public class Board
 				Textr t = new Textr(new Vector2(this.game.WINDOW_WIDTH / 2, this.game.WINDOW_HEIGHT / 2), 40);
 				t.setMessage("-x" + String.valueOf(this.multiplier));
 				t.setDirectrion("down");
-				System.out.print(this.ballCount);
+
 				this.balls.remove(b);
+				System.out.print(this.balls.size());
 				this.world.destroyBody(b.getBody());
 				this.pitch = 1f;
 				this.multiplier = 1;

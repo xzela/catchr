@@ -16,14 +16,14 @@ public class HUD
 		this.board = board;
 		this.score = new Textr(new Vector2(30f, 580f));
 		this.multiplier = new Textr(new Vector2(230f, 580f));
-		this.again = new Textr(new Vector2(this.board.getGame().WINDOW_WIDTH, this.board.getGame().WINDOW_HEIGHT));
+		this.again = new Textr(new Vector2(30f, this.board.getGame().WINDOW_HEIGHT / 2));
 	}
 
 	public void render(SpriteBatch batch, OrthographicCamera camera)
 	{
 		this.score.render(batch, camera);
 		this.multiplier.render(batch, camera);
-		if (this.board.getBalls().size() <= 0 )
+		if (this.board.getBalls().size() == 0 )
 		{
 			this.again.render(batch, camera);
 		}

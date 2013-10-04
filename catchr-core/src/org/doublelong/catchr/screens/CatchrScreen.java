@@ -6,6 +6,7 @@ import org.doublelong.catchr.entity.Board;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class CatchrScreen extends AbstractScreen
@@ -14,6 +15,9 @@ public class CatchrScreen extends AbstractScreen
 
 	private final OrthographicCamera cam;
 	public OrthographicCamera getCam() { return this.cam; }
+
+	private final SpriteBatch batch;
+	public SpriteBatch getBatch () { return this.batch; }
 
 	private final Box2DDebugRenderer debugRenderer;
 
@@ -34,6 +38,8 @@ public class CatchrScreen extends AbstractScreen
 	{
 		super(game);
 		this.debug = debug;
+
+		this.batch = new SpriteBatch();
 
 		this.cam = new OrthographicCamera();
 		this.cam.viewportHeight = Catchr.WINDOW_HEIGHT;
@@ -62,8 +68,14 @@ public class CatchrScreen extends AbstractScreen
 
 		this.cam.update();
 
-		this.board.update(delta);
+		this.board.render(this.batch, this.cam, delta);
 		this.board.getWorld().step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 
+		this.update(delta);
+	}
+
+	public void update(float delta)
+	{
+		this.board.update(delta);
 	}
 }

@@ -29,7 +29,6 @@ public class Board
 	public Catchr getGame() { return this.game; }
 
 	private float time = 0;
-	private final OrthographicCamera cam;
 
 	private final World world;
 	public World getWorld() {return this.world; }
@@ -51,8 +50,6 @@ public class Board
 
 	private HUD hud;
 
-	private SpriteBatch batch;
-
 	private final ParticleEffect effect;
 	private Array<ParticleEmitter> emitters;
 
@@ -62,7 +59,7 @@ public class Board
 	private long multiplier = 1;
 	public long getMultiplier() { return this.multiplier; }
 
-	public Board(Catchr game, OrthographicCamera cam, boolean debug)
+	public Board(Catchr game, OrthographicCamera camera, boolean debug)
 	{
 		this.game = game;
 		this.music = game.manager.get("assets/sounds/contemplation_2.mp3", Music.class);
@@ -72,17 +69,12 @@ public class Board
 		this.debug = debug;
 		this.world = new World(GRAVITY, false);
 
-		this.cam = cam;
-		this.cam.setToOrtho(false, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
-
-		this.player = new Paddle(this.world, new Vector2(this.cam.viewportWidth / 2, 100f));
+		this.player = new Paddle(this.world, new Vector2(camera.viewportWidth / 2, 100f));
 
 		this.balls = new ArrayList<Ball>();
 		this.balls.add(new Ball(this));
 
 		this.walls = this.generateWalls();
-
-		this.batch = new SpriteBatch();
 
 		this.hud = new HUD(this);
 
@@ -109,35 +101,40 @@ public class Board
 		}
 	}
 
-	public void update(float delta)
+	public void render(SpriteBatch batch, OrthographicCamera camera, float delta)
 	{
-		this.cam.update();
-		this.hud.update(delta);
-		this.player.controller.processControls();
-		this.batch.begin();
-		this.hud.render(this.batch, this.cam);
-		this.player.render(this.batch, this.cam);
+		this.hud.update(delta); // have to update first
+
+		batch.begin();
+		this.hud.render(batch, camera);
+		this.player.render(batch, camera);
 		for (Wall wall : this.walls)
 		{
-			wall.render(this.batch, this.cam);
+			wall.render(batch, camera);
 		}
 		for (int i = 0; i < this.ballTextrs.size(); i++)
 		{
 			Textr t = this.ballTextrs.get(i);
 			if (t.getTimer() < 100)
 			{
-				t.render(this.batch, this.cam);
+				t.render(batch, camera);
 				t.update(delta);
 			}
 		}
 
-		this.testCollisions(delta, this.batch);
-		this.testFallout(delta);
-		this.isDone();
-		this.effect.draw(this.batch, delta);
+		this.testCollisions(delta, batch);
+		this.testFallout(batch, camera, delta);
 
-		this.batch.end();
+		this.effect.draw(batch, delta);
+
+		batch.end();
+	}
+
+	public void update(float delta)
+	{
+		this.player.controller.processControls();
 		this.tick(delta);
+		this.isDone();
 	}
 
 	private void isDone()
@@ -161,19 +158,9 @@ public class Board
 		}
 	}
 
-	private List<Ball> generateBalls(int n)
-	{
-		List<Ball> balls = new ArrayList<Ball>();
-		for(int i = 0; i < n; i++)
-		{
-			balls.add(new Ball(this));
-		}
-		return balls;
-	}
-
 	private Wall[] generateWalls()
 	{
-		int numberOfWallBlocks = Math.round(this.cam.viewportHeight / Wall.HEIGHT);
+		int numberOfWallBlocks = Math.round(Catchr.WINDOW_WIDTH / Wall.HEIGHT);
 		Wall[] walls = new Wall[numberOfWallBlocks * 2]; // times 2 because we have two walls
 
 		float y_pos = Wall.HEIGHT;
@@ -186,7 +173,7 @@ public class Board
 		y_pos = Wall.HEIGHT;
 		for (int i = numberOfWallBlocks; i < numberOfWallBlocks * 2; i++)
 		{
-			walls[i] = new Wall(this.world, new Vector2(this.cam.viewportWidth - Wall.WIDTH, y_pos));
+			walls[i] = new Wall(this.world, new Vector2(Catchr.WINDOW_WIDTH - Wall.WIDTH, y_pos));
 			y_pos = y_pos + Wall.HEIGHT + 15;
 		}
 		return walls;
@@ -244,12 +231,12 @@ public class Board
 		}
 	}
 
-	private void testFallout(float delta)
+	private void testFallout(SpriteBatch batch, OrthographicCamera camera, float delta)
 	{
 		for (int i = 0; i < this.balls.size(); i++)
 		{
 			Ball b = this.balls.get(i);
-			b.renderer.renderer(this.batch, this.cam);
+			b.renderer.renderer(batch, camera);
 			if (b.getBody().getPosition().y < 0)
 			{
 				Textr t = new Textr(new Vector2(this.game.WINDOW_WIDTH / 2, this.game.WINDOW_HEIGHT / 2), 40);

@@ -28,4 +28,9 @@ public class HUD
 		this.score.setMessage("Score: " + String.valueOf(Math.round(this.board.getPlayer().getScore())));
 		this.multiplier.setMessage("Mult: x" + String.valueOf(this.board.getMultiplier()));
 	}
+
+	public void add(Textr text)
+	{
+
+	}
 }

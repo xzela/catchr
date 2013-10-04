@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class Board
 {
+	private final Catchr game;
+
 	private static final float SPAWN_WAIT_TIME = 2f;
 	private static final Vector2 GRAVITY = new Vector2(0, -50);
 	public static float UNIT_WIDTH = Catchr.WINDOW_WIDTH / 160;
@@ -35,7 +37,7 @@ public class Board
 
 	private final Wall[] walls;
 
-	private final List<Textr> bt = new ArrayList<Textr>();
+	private final List<Textr> ballTextrs = new ArrayList<Textr>();
 
 	private int ballCount = 0;
 	private final int ballLimit = 10;
@@ -58,6 +60,7 @@ public class Board
 
 	public Board(Catchr game, OrthographicCamera cam, boolean debug)
 	{
+		this.game = game;
 		this.music = game.manager.get("assets/sounds/contemplation_2.mp3", Music.class);
 		this.fallOutSound = game.manager.get("assets/sounds/laser1.mp3", Sound.class);
 		this.music.play();
@@ -112,13 +115,13 @@ public class Board
 		{
 			wall.render(this.batch, this.cam);
 		}
-		for (int i = 0; i < this.bt.size(); i++)
+		for (int i = 0; i < this.ballTextrs.size(); i++)
 		{
-			Textr t = this.bt.get(i);
+			Textr t = this.ballTextrs.get(i);
 			if (t.getTimer() < 100)
 			{
-				t.update(delta);
 				t.render(this.batch, this.cam);
+				t.update(delta);
 			}
 		}
 
@@ -188,7 +191,7 @@ public class Board
 					{
 
 						float p = b.getPoints() * this.multiplier;
-						this.bt.add(b.getScoreText());
+						this.ballTextrs.add(b.getScoreText());
 						this.player.addPoint(p);
 						b.playSound(this.pitch);
 						b.setPoints(p + p);
@@ -198,9 +201,12 @@ public class Board
 						{
 							killList.add(b);
 							this.balls.remove(j);
+							this.multiplier += 1;
+							Textr t = new Textr(new Vector2(this.game.WINDOW_WIDTH / 2, this.game.WINDOW_HEIGHT / 2), 40);
+							t.setMessage("x" + String.valueOf(this.multiplier));
+							this.ballTextrs.add(t);
 						}
 						this.pitch = this.pitch + .01f;
-						this.multiplier += 1;
 					}
 				}
 			}
@@ -213,6 +219,7 @@ public class Board
 				Ball b = killList.get(i);
 				b.explode(this.effect.getEmitters().get(0));
 				killList.remove(b);
+
 				this.world.destroyBody(b.getBody());
 			}
 		}
@@ -226,11 +233,16 @@ public class Board
 			b.renderer.renderer(this.batch, this.cam);
 			if (b.getBody().getPosition().y < 0)
 			{
+				Textr t = new Textr(new Vector2(this.game.WINDOW_WIDTH / 2, this.game.WINDOW_HEIGHT / 2), 40);
+				t.setMessage("-x" + String.valueOf(this.multiplier));
+				t.setDirectrion("down");
+
 				this.balls.remove(b);
 				this.world.destroyBody(b.getBody());
 				this.pitch = 1f;
 				this.multiplier = 1;
 				this.fallOutSound.play();
+				this.ballTextrs.add(t);
 			}
 		}
 	}

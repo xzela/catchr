@@ -44,7 +44,6 @@ public class LoadingScreen extends AbstractScreen
 		this.label = new Label("Press Space to continue", new LabelStyle(this.textr.font, Color.RED));
 		this.stage.addActor(this.logo);
 
-
 	}
 
 	@Override

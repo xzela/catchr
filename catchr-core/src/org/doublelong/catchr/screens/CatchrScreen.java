@@ -46,7 +46,6 @@ public class CatchrScreen extends AbstractScreen
 		this.cam.viewportWidth = Catchr.WINDOW_WIDTH;
 		this.cam.position.set(this.cam.viewportWidth / 2, this.cam.viewportHeight / 2, 0f);
 
-
 		this.board = new Board(game, this.cam, this.debug);
 
 		this.debugRenderer = new Box2DDebugRenderer();
@@ -64,7 +63,7 @@ public class CatchrScreen extends AbstractScreen
 	{
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		this.debugRenderer.render(this.board.getWorld(), this.cam.combined);
+		//this.debugRenderer.render(this.board.getWorld(), this.cam.combined);
 
 		this.cam.update();
 

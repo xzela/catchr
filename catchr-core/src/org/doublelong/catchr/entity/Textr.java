@@ -63,7 +63,6 @@ public class Textr
 		{
 			this.position.y = this.position.y - .7f;
 		}
-
 	}
 
 	public void render(SpriteBatch batch, OrthographicCamera camera)

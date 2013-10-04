@@ -22,7 +22,7 @@ public class BallRenderer
 		this.sprite = new Sprite(this.texture);
 	}
 
-	public void renderer(SpriteBatch batch, OrthographicCamera camera)
+	public void render(SpriteBatch batch, OrthographicCamera camera)
 	{
 		Vector2 pos = this.ball.getBody().getPosition();
 		float rad = this.ball.getFixture().getShape().getRadius();

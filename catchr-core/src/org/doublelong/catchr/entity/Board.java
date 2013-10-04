@@ -195,8 +195,8 @@ public class Board
 					Ball b =  this.balls.get(j);
 					if (contact.getFixtureA() == b.getFixture() || contact.getFixtureB() == b.getFixture())
 					{
-
 						float p = b.getPoints() * this.multiplier;
+
 						this.ballTextrs.add(b.getScoreText());
 						this.player.addPoint(p);
 						b.playSound(this.pitch);
@@ -236,7 +236,7 @@ public class Board
 		for (int i = 0; i < this.balls.size(); i++)
 		{
 			Ball b = this.balls.get(i);
-			b.renderer.renderer(batch, camera);
+			b.renderer.render(batch, camera);
 			if (b.getBody().getPosition().y < 0)
 			{
 				Textr t = new Textr(new Vector2(this.game.WINDOW_WIDTH / 2, this.game.WINDOW_HEIGHT / 2), 40);

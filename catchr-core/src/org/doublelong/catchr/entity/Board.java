@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Array;
 public class Board
 {
 	private final Catchr game;
-
+	public Catchr getGame() { return this.game; }
 	private static final float SPAWN_WAIT_TIME = 2f;
 	private static final Vector2 GRAVITY = new Vector2(0, -50);
 	public static float UNIT_WIDTH = Catchr.WINDOW_WIDTH / 160;
@@ -42,6 +42,8 @@ public class Board
 	private int ballCount = 0;
 	private final int ballLimit = 10;
 	private final List<Ball> balls;
+	public List<Ball> getBalls() { return this.balls; }
+	public void setBalls(int n) { this.generateBalls(n); }
 
 	private final boolean debug;
 
@@ -236,7 +238,7 @@ public class Board
 				Textr t = new Textr(new Vector2(this.game.WINDOW_WIDTH / 2, this.game.WINDOW_HEIGHT / 2), 40);
 				t.setMessage("-x" + String.valueOf(this.multiplier));
 				t.setDirectrion("down");
-
+				System.out.print(this.ballCount);
 				this.balls.remove(b);
 				this.world.destroyBody(b.getBody());
 				this.pitch = 1f;

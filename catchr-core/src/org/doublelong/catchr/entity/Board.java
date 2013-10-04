@@ -46,12 +46,6 @@ public class Board
 
 	private final List<Ball> balls;
 	public List<Ball> getBalls() { return this.balls; }
-	public void setBalls(int limit)
-	{
-		this.ballCount = 0;
-		this.ballLimit = limit;
-		this.generateBalls(1);
-	}
 
 	private final boolean debug;
 
@@ -259,16 +253,18 @@ public class Board
 			if (b.getBody().getPosition().y < 0)
 			{
 				Textr t = new Textr(new Vector2(this.game.WINDOW_WIDTH / 2, this.game.WINDOW_HEIGHT / 2), 40);
-				t.setMessage("-x" + String.valueOf(this.multiplier));
-				t.setDirectrion("down");
-
+				if (this.multiplier > 1)
+				{
+					t.setMessage("-x" + String.valueOf(this.multiplier));
+					t.setDirectrion("down");
+					this.ballTextrs.add(t);
+				}
 				this.balls.remove(b);
-				System.out.print(this.balls.size());
 				this.world.destroyBody(b.getBody());
 				this.pitch = 1f;
 				this.multiplier = 1;
 				this.fallOutSound.play();
-				this.ballTextrs.add(t);
+
 			}
 		}
 	}

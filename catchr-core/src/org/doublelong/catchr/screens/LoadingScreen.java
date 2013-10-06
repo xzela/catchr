@@ -69,6 +69,7 @@ public class LoadingScreen extends AbstractScreen
 				game.setScreen(new CatchrScreen(this.game, true));
 			}
 		}
+		//this.logo.setRotation(this.logo.getRotation() + .01f);
 		this.stage.act();
 		this.stage.draw();
 	}
